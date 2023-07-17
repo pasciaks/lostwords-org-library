@@ -58,3 +58,5 @@ $npm run test
 ```
 
 This website was the source for this library. [Lostwords.org](http://lostwords.org).
+
+Contribute and support this effort by donating to my cause. [Contribute/Support](https://www.buymeacoffee.com/shelpasc).
