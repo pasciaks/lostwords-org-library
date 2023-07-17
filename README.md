@@ -42,7 +42,7 @@ console.log("Puzzles Created:", result.length);
 ```javascript
 // Runkit usage example
 
-var lostwordsOrgLibrary = require("@pasciaks/lostwords-org-library");
+let lostwordsOrgLibrary = require("@pasciaks/lostwords-org-library");
 
 console.log(lostwordsOrgLibrary.createManyPuzzles(1));
 ```

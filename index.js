@@ -1,5 +1,5 @@
-const fs = require("fs");
-const path = require("path");
+// const fs = require("fs");
+// const path = require("path");
 
 // -- Externally configurable
 let global_squarePuzzleSize = 14;
@@ -310,39 +310,39 @@ const createPuzzle = () => {
 
   hview = hview.replace("{{content}}", hdata);
 
-  if (global_allowWriteToDisk) {
-    if (global_showConsoleMessages) console.log("");
-    if (global_showConsoleMessages) console.log("Creating files on disk.");
-    if (global_showConsoleMessages) console.log("");
+  // if (global_allowWriteToDisk) {
+  //   if (global_showConsoleMessages) console.log("");
+  //   if (global_showConsoleMessages) console.log("Creating files on disk.");
+  //   if (global_showConsoleMessages) console.log("");
 
-    let targetFolder = path.join(__dirname, "_Created");
+  //   let targetFolder = path.join(__dirname, "_Created");
 
-    if (fs.existsSync(targetFolder)) {
-      if (global_showConsoleMessages) console.log("** EXISTS **");
-    } else {
-      if (global_showConsoleMessages) console.log("** DOES NOT EXIST **");
+  //   if (fs.existsSync(targetFolder)) {
+  //     if (global_showConsoleMessages) console.log("** EXISTS **");
+  //   } else {
+  //     if (global_showConsoleMessages) console.log("** DOES NOT EXIST **");
 
-      fs.mkdirSync(targetFolder, { recursive: true });
-    }
+  //     fs.mkdirSync(targetFolder, { recursive: true });
+  //   }
 
-    fs.writeFileSync(
-      path.join(targetFolder, `_created-${createdAtId}.txt`),
-      filedata,
-      "utf-8"
-    );
+  //   fs.writeFileSync(
+  //     path.join(targetFolder, `_created-${createdAtId}.txt`),
+  //     filedata,
+  //     "utf-8"
+  //   );
 
-    fs.writeFileSync(
-      path.join(targetFolder, `_created-${createdAtId}.html`),
-      hview,
-      "utf-8"
-    );
+  //   fs.writeFileSync(
+  //     path.join(targetFolder, `_created-${createdAtId}.html`),
+  //     hview,
+  //     "utf-8"
+  //   );
 
-    fs.writeFileSync(
-      path.join(targetFolder, `_created-${createdAtId}.json`),
-      JSON.stringify(result2.created, 0, 2),
-      "utf-8"
-    );
-  }
+  //   fs.writeFileSync(
+  //     path.join(targetFolder, `_created-${createdAtId}.json`),
+  //     JSON.stringify(result2.created, 0, 2),
+  //     "utf-8"
+  //   );
+  // }
 
   if (global_showConsoleMessages) console.log("");
   if (global_showConsoleMessages) console.log("Hidden");
