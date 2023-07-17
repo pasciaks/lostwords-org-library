@@ -1,0 +1,1 @@
+declare module '@pasciaks/lostwords-org-library';
