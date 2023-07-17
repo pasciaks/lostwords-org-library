@@ -1,10 +1,6 @@
-// const fs = require("fs");
-// const path = require("path");
-
 // -- Externally configurable
 let global_squarePuzzleSize = 14;
-let global_p_bends = 0; // 0-999, use 999 for only90DegreeTurns only
-let global_allowWriteToDisk = false;
+let global_p_bends = 0; // 0-999, use 999 for only90DegreeTurns
 let global_puzzleshapeoverride = "";
 let global_diagonals = "yes";
 let global_wordlistoption = "B";
@@ -28,7 +24,6 @@ let global_point = new Object();
 let global_currentPath = new Array();
 let global_locationsArray = new Array();
 let global_foundLocations = new Array();
-let global_showConsoleMessages = false;
 
 const setGlobalOptionValue = (variable, val) => {
   switch (variable) {
@@ -38,9 +33,6 @@ const setGlobalOptionValue = (variable, val) => {
     case "global_p_bends":
       global_p_bends = val;
       break;
-    // case "global_allowWriteToDisk":
-    //   global_allowWriteToDisk = !!val; // force boolean result;
-    //   break;
     case "global_puzzleshapeoverride":
       global_puzzleshapeoverride = val;
       break;
@@ -203,7 +195,7 @@ const createPuzzle = () => {
 
   global_p_locations = "";
 
-  let wordList = global_p_words.split(","); // global_p_words.replace(/ /g, "").split(",");
+  let wordList = global_p_words.split(",");
 
   let maxBends = global_p_bends;
 
@@ -239,8 +231,6 @@ const createPuzzle = () => {
       } else {
         missingWords += "," + wordList[index] + "";
       }
-      if (global_showConsoleMessages)
-        console.log("NOT Hidden:" + wordList[index]);
     } else {
       howManyHidden++;
       global_wordLetters += wordList[index];
@@ -259,98 +249,6 @@ const createPuzzle = () => {
   global_p_data = global_puzzleData;
 
   let result2 = createSqlFromFilledform();
-
-  let hview = `
-
-  <!DOCTYPE html>
-  <html>
-  <head>
-  <link href='https://fonts.googleapis.com/css?family=Courier Prime' rel='stylesheet'>
-  <style>
-
-  body {
-      font-family: 'Courier Prime';font-size: 22px;
-      line-height: 80%;
-  }
-  
-  </style>
-
-  </head>
-
-  <body>
-  
-  {{content}}
-  
-  </body>
-
-  </html>
-
-  `;
-
-  let ss = "";
-  let filedata = "";
-  let hdata = "";
-
-  for (let i = 0; i < global_squarePuzzleSize * global_squarePuzzleSize; i++) {
-    if (i % global_squarePuzzleSize == 0 && i > 0) {
-      if (global_showConsoleMessages) console.log(ss);
-      filedata += ss + "\n";
-      hdata += ss.replace(/ /g, "&nbsp;") + "<br />";
-      ss = "";
-    }
-    ss += global_p_data.charAt(i);
-  }
-
-  filedata += ss + "\n";
-  hdata += ss.replace(/ /g, "&nbsp;") + "<br />";
-
-  if (global_showConsoleMessages) console.log(ss);
-
-  let createdAtId = Date.now();
-
-  hview = hview.replace("{{content}}", hdata);
-
-  // if (global_allowWriteToDisk) {
-  //   if (global_showConsoleMessages) console.log("");
-  //   if (global_showConsoleMessages) console.log("Creating files on disk.");
-  //   if (global_showConsoleMessages) console.log("");
-
-  //   let targetFolder = path.join(__dirname, "_Created");
-
-  //   if (fs.existsSync(targetFolder)) {
-  //     if (global_showConsoleMessages) console.log("** EXISTS **");
-  //   } else {
-  //     if (global_showConsoleMessages) console.log("** DOES NOT EXIST **");
-
-  //     fs.mkdirSync(targetFolder, { recursive: true });
-  //   }
-
-  //   fs.writeFileSync(
-  //     path.join(targetFolder, `_created-${createdAtId}.txt`),
-  //     filedata,
-  //     "utf-8"
-  //   );
-
-  //   fs.writeFileSync(
-  //     path.join(targetFolder, `_created-${createdAtId}.html`),
-  //     hview,
-  //     "utf-8"
-  //   );
-
-  //   fs.writeFileSync(
-  //     path.join(targetFolder, `_created-${createdAtId}.json`),
-  //     JSON.stringify(result2.created, 0, 2),
-  //     "utf-8"
-  //   );
-  // }
-
-  if (global_showConsoleMessages) console.log("");
-  if (global_showConsoleMessages) console.log("Hidden");
-  if (global_showConsoleMessages) console.log(hiddenWords);
-
-  if (global_showConsoleMessages) console.log("");
-  if (global_showConsoleMessages) console.log("Wordlist");
-  if (global_showConsoleMessages) console.log(wordList.join(","));
 
   return result2.created;
 };
@@ -773,22 +671,12 @@ const createSqlFromFilledform = () => {
       coordsPair += ArrayOfLocations[coordsIndex];
 
       if (ArrayOfLocations[coordsIndex] == undefined) {
-        if (global_showConsoleMessages)
-          console.log("----------------------------");
-        if (global_showConsoleMessages) console.log(ArrayOfWords[wl]);
-        if (global_showConsoleMessages)
-          console.log("----------------------------");
         hasFailed = true;
       }
       coordsIndex++;
       coordsPair += "," + ArrayOfLocations[coordsIndex];
 
       if (ArrayOfLocations[coordsIndex] == undefined) {
-        if (global_showConsoleMessages)
-          console.log("----------------------------");
-        if (global_showConsoleMessages) console.log(ArrayOfWords[wl]);
-        if (global_showConsoleMessages)
-          console.log("----------------------------");
         hasFailed = true;
       }
       coordsIndex++;
@@ -797,10 +685,6 @@ const createSqlFromFilledform = () => {
 
     if (!hasFailed) {
       locarr.push(coordsPair);
-
-      if (global_showConsoleMessages) console.log("\n");
-      if (global_showConsoleMessages) console.log(coordsPair);
-      if (global_showConsoleMessages) console.log("\n");
     }
 
     coordsPair += '"' + coordsPair + '"';
@@ -811,9 +695,6 @@ const createSqlFromFilledform = () => {
   }
 
   if (hasFailed) {
-    if (global_showConsoleMessages) console.log("*** Something has failed ***");
-    if (global_showConsoleMessages) console.log("*** Something has failed ***");
-    if (global_showConsoleMessages) console.log("*** Something has failed ***");
   }
 
   let PuzzleName = global_title_name;
@@ -836,8 +717,6 @@ const createSqlFromFilledform = () => {
   createdPuzzleObject.p_clues = ArrayOfClues;
   createdPuzzleObject.p_wordoptions = global_wordlistoption;
   createdPuzzleObject.p_clueoptions = global_clueoption;
-
-  if (global_showConsoleMessages) console.log(createdPuzzleObject);
 
   return { created: createdPuzzleObject };
 };
