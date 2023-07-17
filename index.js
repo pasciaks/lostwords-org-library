@@ -12,7 +12,7 @@ let global_post_msg = "Puzzle Solved";
 let global_pre_msg = "Good Luck";
 
 // -- Internal Use
-let global_noDiagonals = false;
+let global_noDiagonals = false; // @todo - remove need for this by addressing with global_diagonals listed above
 let global_puzzleData = "";
 let global_letterChoices = "";
 let global_p_data = "";
@@ -716,7 +716,7 @@ const createSqlFromFilledform = () => {
   createdPuzzleObject.p_locations = locarr;
   createdPuzzleObject.p_clues = ArrayOfClues;
   createdPuzzleObject.p_wordoptions = global_wordlistoption;
-  createdPuzzleObject.p_clueoptions = global_clueoption;
+  createdPuzzleObject.p_clueoptions = global_clueoption; // @todo - document use, e.g. U for puzzle doesn't allow duplicate use of letters
 
   return { created: createdPuzzleObject };
 };
