@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node index.test.js",
+    "start": "node index.test.js",
     "prepublish": "npm test"
   },
   "repository": {
