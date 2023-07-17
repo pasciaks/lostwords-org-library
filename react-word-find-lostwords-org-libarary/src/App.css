@@ -1,6 +1,11 @@
 .App {
   text-align: center;
   font: 36px courier;
+  margin: 10px;
+}
+
+a {
+  cursor: pointer;
 }
 
 .App-logo {

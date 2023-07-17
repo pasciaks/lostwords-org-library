@@ -38,9 +38,9 @@ const setGlobalOptionValue = (variable, val) => {
     case "global_p_bends":
       global_p_bends = val;
       break;
-    case "global_allowWriteToDisk":
-      global_allowWriteToDisk = !!val; // force boolean result;
-      break;
+    // case "global_allowWriteToDisk":
+    //   global_allowWriteToDisk = !!val; // force boolean result;
+    //   break;
     case "global_puzzleshapeoverride":
       global_puzzleshapeoverride = val;
       break;
