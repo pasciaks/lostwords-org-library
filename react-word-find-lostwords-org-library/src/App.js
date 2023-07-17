@@ -17,8 +17,8 @@ function App() {
   const [value, setValue] = useState(lwLibrary.createManyPuzzles(1));
 
   const convertString = (string_value) => {
-    if (value) {
-      console.log(value[0].p_locations);
+    if (!value) {
+      return;
     }
     let c = "red";
     let extra = "font-weight:200;";
@@ -32,17 +32,10 @@ function App() {
       for (let j = 0; j < puzzleSize; j++) {
         c = "red";
         extra = "font-weight:200;";
-
         let anyFound = false;
-
         for (let ii = 0; ii < value[0].p_locations.length; ii++) {
           let howManyPoints = value[0].p_locations[ii].split(",");
-
-          // console.log(howManyPoints);
-
           for (let jj = 0; jj < howManyPoints.length; jj += 2) {
-            // console.log(`${i},${j} === ${howManyPoints[jj]},${howManyPoints[jj + 1]}`);
-
             if (howManyPoints[jj] == j + 1) {
               if (howManyPoints[jj + 1] == i + 1) {
                 anyFound = true;
