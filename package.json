@@ -11,6 +11,11 @@
     "type": "git",
     "url": "https://github.com/pasciaks/lostwords-org-library.git"
   },
+  "keywords": [
+    "wordsearch",
+    "wordfind",
+    "puzzle"
+  ],
   "author": "Sheldon Pasciak <sheldon@pasciak.com> (https://pasciak.com)",
   "license": "MIT"
 }

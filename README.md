@@ -28,8 +28,7 @@ npm install @pasciaks/lostwords-org-library
 ```
 
 ```javascript
-
-# Javascript usage
+// Javascript usage
 
 const { createManyPuzzles } = require("@pasciaks/lostwords-org-library");
 
@@ -38,7 +37,14 @@ let result = createManyPuzzles(1);
 console.log("Puzzles:", result);
 
 console.log("Puzzles Created:", result.length);
+```
 
+```javascript
+// Runkit usage example
+
+var lostwordsOrgLibrary = require("@pasciaks/lostwords-org-library");
+
+console.log(lostwordsOrgLibrary.createManyPuzzles(1));
 ```
 
 # Test
