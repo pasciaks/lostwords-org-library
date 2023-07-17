@@ -10,12 +10,13 @@ Note: This code is from many years ago and just being added to npm and the relat
 
 The goal will be to class base this source code, apply typescript and perhaps adapt the current 'random' algorithm to create the word search data with priorities to include:
 
-- adapt for other languages
-  - JAVA
-  - C#
-  - etc
-- improve algorithm for non random, depth-first-search type implementation
-- establish example web and other applications in variety of frameworks that use the library
+- @todo List of Priorities
+  - Adapt for other languages
+    - JAVA
+    - C#
+    - etc
+  - Improve algorithm for non random, depth-first-search type implementation
+  - Establish example web and other applications in variety of frameworks that use the library
 
 ---
 
