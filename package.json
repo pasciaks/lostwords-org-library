@@ -1,0 +1,12 @@
+{
+  "name": "@pasciaks/lostwords-org-library",
+  "version": "1.0.29",
+  "description": "Lostwords.org - Word search generator and function library.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.test.js",
+    "prepublish": "npm test"
+  },
+  "author": "Sheldon Pasciak <sheldon@pasciak.com> (https://pasciak.com)",
+  "license": "MIT"
+}
