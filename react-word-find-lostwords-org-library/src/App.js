@@ -1,5 +1,14 @@
 import React, { useState } from "react";
 
+import logo from "./images/bmc_qr.png";
+
+// Bootstrap CSS
+import "bootstrap/dist/css/bootstrap.min.css";
+// Bootstrap Bundle JS
+import "bootstrap/dist/js/bootstrap.bundle.min";
+
+import "./index.css";
+
 import "./App.css";
 
 const lwLibrary = require("@pasciaks/lostwords-org-library");
@@ -35,10 +44,7 @@ let puzzleSize = 8;
 
 lwLibrary.setGlobalOptionValue("global_squarePuzzleSize", puzzleSize);
 
-lwLibrary.setGlobalOptionValue(
-  "global_p_words",
-  "NOW,IS,THE,TIME,FOR,ALL,GOOD,MEN,TO,LEARN,HOW,TWO,CODE,IN,REACT"
-);
+lwLibrary.setGlobalOptionValue("global_p_words", "LOST,WORDS");
 
 function App() {
   const [value, setValue] = useState(lwLibrary.createManyPuzzles(1));
@@ -63,7 +69,9 @@ function App() {
         for (let ii = 0; ii < value[0].p_locations.length; ii++) {
           let howManyPoints = value[0].p_locations[ii].split(",");
           for (let jj = 0; jj < howManyPoints.length; jj += 2) {
+            // eslint-disable-next-line
             if (howManyPoints[jj] == j + 1) {
+              // eslint-disable-next-line
               if (howManyPoints[jj + 1] == i + 1) {
                 anyFound = true;
               }
@@ -99,9 +107,20 @@ function App() {
           dangerouslySetInnerHTML={{ __html: convertString(value[0].p_data) }}
         />
       </div>
-      <h2>
-        <a href="/">Generate again!</a>
-      </h2>
+      <div className="container">
+        <img src={logo} width={100} height={100} alt="buy me a coffee" />
+
+        <h2>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setValue(lwLibrary.createManyPuzzles(1));
+            }}
+          >
+            Generate again!
+          </button>
+        </h2>
+      </div>
     </>
   );
 }
