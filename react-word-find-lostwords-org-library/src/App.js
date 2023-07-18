@@ -35,18 +35,30 @@ lwLibrary.setGlobalOptionValue("global_squarePuzzleSize", puzzleSize);
 
 lwLibrary.setGlobalOptionValue("global_p_words", "LOST,WORDS");
 
-lwLibrary.setGlobalOptionValue("global_p_bends", 1);
+lwLibrary.setGlobalOptionValue("global_p_bends", 9);
 
 function App() {
   const [value, setValue] = useState("LOST,WORDS");
-  const [showAnswers, setShowAnswers] = useState(0);
+  const [showAnswers, setShowAnswers] = useState(999);
   const [num, setNum] = useState(1);
 
   // const [time, setTime] = useState("");
 
   function convertWords(str = "") {
-    const text = `${str}`;
-    return text.replace(/,/g, " ");
+    let text = `${str}`;
+    let totalText = "";
+    // text = text.replace(/,/g, " ");
+    let array = text.split(",");
+    for (var i = 0; i < array.length; i++) {
+      let s2 = `${array[i]}<a target="_blank" rel="noreferrer noopener" href='https://www.google.com/search?q=${array[i]}&sourceid=chrome&ie=UTF-8'>(google)</a>`;
+      let ss = `<a target="_blank" rel="noreferrer noopener" href='https://www.merriam-webster.com/dictionary/${array[i]}'>(websters)</a>`;
+
+      if (totalText !== "") {
+        totalText += "|";
+      }
+      totalText += s2 + "" + ss;
+    }
+    return totalText;
   }
 
   const getWords = async () => {
