@@ -44,6 +44,11 @@ function App() {
 
   // const [time, setTime] = useState("");
 
+  function convertWords(str) {
+    const text = `${str}`;
+    return text.replace(/,/g, " ");
+  }
+
   const getWords = async () => {
     // https://random-word-api.herokuapp.com/word?number=10
 
@@ -155,6 +160,7 @@ function App() {
       <div className="App">
         <div className="container">
           <Row>
+            <p>Lostwords</p>
             <a href="http://lostwords.org" style={{ textDecoration: "none" }}>
               <p
                 className={"fs-6 content-to-hide"}
@@ -249,7 +255,9 @@ function App() {
             <Col>
               <div
                 className={"fs-6"}
-                dangerouslySetInnerHTML={{ __html: value[0].p_words }}
+                dangerouslySetInnerHTML={{
+                  __html: convertWords(value[0].p_words),
+                }}
               />
               <div
                 className={"fs-4 text-center"}
