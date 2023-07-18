@@ -54,7 +54,7 @@ function App() {
       let ss = `<a target="_blank" rel="noreferrer noopener" href='https://www.merriam-webster.com/dictionary/${array[i]}'>(websters)</a>`;
 
       if (totalText !== "") {
-        totalText += "|";
+        totalText += "<br />";
       }
       totalText += s2 + "" + ss;
     }
@@ -170,117 +170,116 @@ function App() {
   return (
     <>
       <div className="App">
-        <div className="container">
-          <Row>
-            <p>Lostwords</p>
-            <a href="http://lostwords.org" style={{ textDecoration: "none" }}>
-              <p
-                className={"fs-6 content-to-hide"}
-                dangerouslySetInnerHTML={{ __html: resultHtml }}
-              />
-            </a>
-          </Row>
-          <Row>
-            <Col>
-              <button onClick={getWords}>Create</button>
-              <br />
-              <button onClick={setone}>Words 1</button>
-              <button onClick={setfive}>Words 5</button>
-              <br />
-              {/* @todo - convert to function call and not inline button click */}
-              <button
-                onClick={() => {
-                  let cv = showAnswers;
-                  if (cv === 0) {
-                    setShowAnswers(1);
-                  } else if (cv === 1) {
-                    setShowAnswers(99);
-                  } else {
-                    setShowAnswers(0);
-                  }
-                }}
-              >
-                Answers
-              </button>
-              <br />
-              {/* @todo - convert to function call and not inline button click */}
-              <button
-                onClick={() => {
-                  puzzleSize = 8;
-                  lwLibrary.setGlobalOptionValue(
-                    "global_squarePuzzleSize",
-                    puzzleSize
-                  );
-                  getWords();
-                }}
-              >
-                Size 8
-              </button>
-              <button
-                onClick={() => {
-                  puzzleSize = 14;
-                  lwLibrary.setGlobalOptionValue(
-                    "global_squarePuzzleSize",
-                    puzzleSize
-                  );
-                  getWords();
-                }}
-              >
-                Size 14
-              </button>
-              <br />
-              {/* @todo - convert to function call and not inline button click */}
-              <button
-                onClick={() => {
-                  lwLibrary.setGlobalOptionValue("global_p_bends", 0);
-                  getWords();
-                }}
-              >
-                Bends 0
-              </button>
-              <button
-                onClick={() => {
-                  lwLibrary.setGlobalOptionValue("global_p_bends", 1);
-                  getWords();
-                }}
-              >
-                Bends 1
-              </button>
-              <button
-                onClick={() => {
-                  lwLibrary.setGlobalOptionValue("global_p_bends", 9);
-                  getWords();
-                }}
-              >
-                Bends 9
-              </button>
-              <button
-                onClick={() => {
-                  lwLibrary.setGlobalOptionValue("global_p_bends", 999);
-                  getWords();
-                }}
-              >
-                Bends 999
-              </button>
-            </Col>
+        {/* <div className="container"> */}
+        {/* <Row> */}
+        <p>Lostwords</p>
+        <a href="http://lostwords.org" style={{ textDecoration: "none" }}>
+          <p
+            className={"fs-6 content-to-hide"}
+            dangerouslySetInnerHTML={{ __html: resultHtml }}
+          />
+        </a>
+        {/* </Row> */}
+        <Row>
+          <Col>
+            <button onClick={getWords}>Create</button>{" "}
+            <button
+              onClick={() => {
+                let cv = showAnswers;
+                if (cv === 0) {
+                  setShowAnswers(1);
+                } else if (cv === 1) {
+                  setShowAnswers(99);
+                } else {
+                  setShowAnswers(0);
+                }
+              }}
+            >
+              Answers
+            </button>
+            <br />
+            <button onClick={setone}>Words 1</button>{" "}
+            <button onClick={setfive}>Words 5</button>
+            {/* @todo - convert to function call and not inline button click */}
+            <br />
+            {/* @todo - convert to function call and not inline button click */}
+            <button
+              onClick={() => {
+                puzzleSize = 8;
+                lwLibrary.setGlobalOptionValue(
+                  "global_squarePuzzleSize",
+                  puzzleSize
+                );
+                getWords();
+              }}
+            >
+              Size 8
+            </button>
+            <button
+              onClick={() => {
+                puzzleSize = 14;
+                lwLibrary.setGlobalOptionValue(
+                  "global_squarePuzzleSize",
+                  puzzleSize
+                );
+                getWords();
+              }}
+            >
+              Size 14
+            </button>
+            <br />
+            {/* @todo - convert to function call and not inline button click */}
+            <button
+              onClick={() => {
+                lwLibrary.setGlobalOptionValue("global_p_bends", 0);
+                getWords();
+              }}
+            >
+              Bends 0
+            </button>
+            <button
+              onClick={() => {
+                lwLibrary.setGlobalOptionValue("global_p_bends", 1);
+                getWords();
+              }}
+            >
+              Bends 1
+            </button>
+            <button
+              onClick={() => {
+                lwLibrary.setGlobalOptionValue("global_p_bends", 9);
+                getWords();
+              }}
+            >
+              Bends 9
+            </button>
+            <button
+              onClick={() => {
+                lwLibrary.setGlobalOptionValue("global_p_bends", 999);
+                getWords();
+              }}
+            >
+              Bends 999
+            </button>
+          </Col>
 
-            <Col>
-              <div
-                className={"fs-6"}
-                dangerouslySetInnerHTML={{
-                  __html: convertWords(value[0].p_words),
-                }}
-              />
-              <div
-                className={"fs-4 text-center"}
-                dangerouslySetInnerHTML={{
-                  __html: convertString(value[0].p_data),
-                }}
-              />
-            </Col>
-          </Row>
-        </div>
+          <Col>
+            <div
+              className={"fs-6"}
+              dangerouslySetInnerHTML={{
+                __html: convertWords(value[0].p_words),
+              }}
+            />
+            <div
+              className={"fs-4 text-center"}
+              dangerouslySetInnerHTML={{
+                __html: convertString(value[0].p_data),
+              }}
+            />
+          </Col>
+        </Row>
       </div>
+      {/* </div> */}
     </>
   );
 }
