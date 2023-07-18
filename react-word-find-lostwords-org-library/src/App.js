@@ -44,7 +44,7 @@ function App() {
 
   // const [time, setTime] = useState("");
 
-  function convertWords(str) {
+  function convertWords(str = "") {
     const text = `${str}`;
     return text.replace(/,/g, " ");
   }
@@ -144,8 +144,8 @@ function App() {
     getWords();
   };
 
-  const setten = () => {
-    setNum(10);
+  const setfive = () => {
+    setNum(5);
     getWords();
   };
 
@@ -173,7 +173,7 @@ function App() {
               <button onClick={getWords}>Create</button>
               <br />
               <button onClick={setone}>Words 1</button>
-              <button onClick={setten}>Words 10</button>
+              <button onClick={setfive}>Words 5</button>
               <br />
               {/* @todo - convert to function call and not inline button click */}
               <button
