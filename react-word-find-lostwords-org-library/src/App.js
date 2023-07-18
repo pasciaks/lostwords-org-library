@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import logo from "./images/bmc_qr.png";
+// import logo from "./images/bmc_qr.png";
+import { Row, Col } from "react-bootstrap";
 
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -62,7 +63,7 @@ function App() {
     // https://random-word-api.herokuapp.com/home
     let wordListToGenerateInPuzzle = await axios
       .get(
-        "https://random-word-api.herokuapp.com/word?number=5&length=5&lang=en"
+        "https://random-word-api.herokuapp.com/word?number=5&length=6&lang=en"
       )
       .then(function (response) {
         // handle success
@@ -105,7 +106,7 @@ function App() {
     let extra = "font-weight:200;";
     let index = 0;
     let currentLine = "";
-    let currentLineAscii = "";
+    // let currentLineAscii = "";
 
     if (!string_value) return;
 
@@ -139,14 +140,14 @@ function App() {
           string_value.substring(index, index + 1) +
           "</span>";
 
-        currentLineAscii += "." + string_value.substring(index, index + 1);
+        // currentLineAscii += "." + string_value.substring(index, index + 1);
 
         index++;
       }
       currentLine += "<BR />";
-      currentLineAscii += "\n";
+      // currentLineAscii += "\n";
     }
-    console.log(currentLineAscii);
+    // console.log(currentLineAscii);
     return currentLine;
   };
 
@@ -163,27 +164,72 @@ function App() {
   return (
     <>
       <div className="App">
-        <div
-          dangerouslySetInnerHTML={{ __html: convertString(value[0].p_data) }}
-        />
-      </div>
-      <div className="container">
-        <img src={logo} width={100} height={100} alt="buy me a coffee" />
+        <div className="container">
+          {/* <img src={logo} width={100} height={100} alt="buy me a coffee" /> */}
 
-        <h2>
-          <button onClick={getWords}>Generate Word Search!</button>
-        </h2>
-        <h2>
-          <button
-            onClick={() => {
-              setShowAnswer(!showAnswers);
-            }}
-          >
-            Answers
-          </button>
-        </h2>
+          <Row>
+            <Col>
+              <button onClick={getWords}>Create</button>
+            </Col>
+            <Col>
+              <button
+                onClick={() => {
+                  setShowAnswer(!showAnswers);
+                }}
+              >
+                Answers
+              </button>
+            </Col>
+            <Col>
+              <button
+                onClick={() => {
+                  puzzleSize = 8;
+                  lwLibrary.setGlobalOptionValue(
+                    "global_squarePuzzleSize",
+                    puzzleSize
+                  );
+                  getWords();
+                }}
+              >
+                8
+              </button>
+            </Col>
+            <Col>
+              {" "}
+              <button
+                onClick={() => {
+                  puzzleSize = 14;
+                  lwLibrary.setGlobalOptionValue(
+                    "global_squarePuzzleSize",
+                    puzzleSize
+                  );
+                  getWords();
+                }}
+              >
+                14
+              </button>
+            </Col>
+            <Col></Col>
+          </Row>
+          <Row>
+            <Col>
+              <br />
+              <div dangerouslySetInnerHTML={{ __html: value[0].p_words }} />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <br />
+
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: convertString(value[0].p_data),
+                }}
+              />
+            </Col>
+          </Row>
+        </div>
       </div>
-      <div dangerouslySetInnerHTML={{ __html: value[0].p_words }} />
     </>
   );
 }
