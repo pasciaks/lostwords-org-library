@@ -134,10 +134,19 @@ function App() {
     return currentLine;
   };
 
+  const setone = () => {
+    setNum(1);
+    getWords();
+  };
+
+  const setten = () => {
+    setNum(10);
+    getWords();
+  };
+
   useEffect(() => {}, [value, showAnswers]);
 
   useEffect(() => {
-    //
     getWords();
   }, [num]);
 
@@ -155,20 +164,8 @@ function App() {
             <Col>
               <button onClick={getWords}>Create</button>
               <br />
-              <button
-                onClick={() => {
-                  setNum(1);
-                }}
-              >
-                Words 1
-              </button>
-              <button
-                onClick={() => {
-                  setNum(10);
-                }}
-              >
-                Words 10
-              </button>
+              <button onClick={setone}>Words 1</button>
+              <button onClick={setten}>Words 10</button>
               <br />
               {/* @todo - convert to function call and not inline button click */}
               <button
