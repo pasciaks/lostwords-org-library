@@ -7,6 +7,8 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./index.css";
 import "./App.css";
 
+// @todo - make this a portable component and respect eslint rules for prettier code formatter, etc.
+
 const lwLibrary = require("@pasciaks/lostwords-org-library");
 
 let consoletext = `
@@ -19,7 +21,6 @@ let consoletext = `
 888     Y88..88P      X88 Y88b.  8888P   Y8888 Y88..88P 888    Y88b 888      X88 
 88888888 "Y88P"   88888P'  "Y888 888P     Y888  "Y88P"  888     "Y88888  88888P' 
                                                                                  
-                                              
 `; // thanks to https://patorjk.com/software/taag/#p=display&f=Colossal&t=Lost%0AWords
 
 let resultHtml;
@@ -135,9 +136,8 @@ function App() {
 
   useEffect(() => {}, [value, showAnswers]);
 
-  // getWords();
-
   useEffect(() => {
+    //
     getWords();
   }, [num]);
 
@@ -153,6 +153,7 @@ function App() {
           </Row>
           <Row>
             <Col>
+              <button onClick={getWords}>Create</button>
               <br />
               <button
                 onClick={() => {
@@ -161,7 +162,6 @@ function App() {
               >
                 Words 1
               </button>
-              <br />
               <button
                 onClick={() => {
                   setNum(10);
@@ -169,8 +169,6 @@ function App() {
               >
                 Words 10
               </button>
-              <br />
-              <button onClick={getWords}>Create</button>
               <br />
               {/* @todo - convert to function call and not inline button click */}
               <button
@@ -201,7 +199,6 @@ function App() {
               >
                 Size 8
               </button>
-              <br />
               <button
                 onClick={() => {
                   puzzleSize = 14;
@@ -224,7 +221,6 @@ function App() {
               >
                 Bends 0
               </button>
-              <br />
               <button
                 onClick={() => {
                   lwLibrary.setGlobalOptionValue("global_p_bends", 1);
@@ -233,7 +229,6 @@ function App() {
               >
                 Bends 1
               </button>
-              <br />
               <button
                 onClick={() => {
                   lwLibrary.setGlobalOptionValue("global_p_bends", 9);
@@ -242,7 +237,6 @@ function App() {
               >
                 Bends 9
               </button>
-              <br />
               <button
                 onClick={() => {
                   lwLibrary.setGlobalOptionValue("global_p_bends", 999);
@@ -251,7 +245,6 @@ function App() {
               >
                 Bends 999
               </button>
-              <br />
             </Col>
 
             <Col>
@@ -260,6 +253,7 @@ function App() {
                 dangerouslySetInnerHTML={{ __html: value[0].p_words }}
               />
               <div
+                className={"fs-4"}
                 dangerouslySetInnerHTML={{
                   __html: convertString(value[0].p_data),
                 }}
