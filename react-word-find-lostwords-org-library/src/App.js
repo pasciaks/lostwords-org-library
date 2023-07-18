@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import logo from "./images/bmc_qr.png";
 
 // Bootstrap CSS
@@ -46,8 +46,56 @@ lwLibrary.setGlobalOptionValue("global_squarePuzzleSize", puzzleSize);
 
 lwLibrary.setGlobalOptionValue("global_p_words", "LOST,WORDS");
 
+lwLibrary.setGlobalOptionValue("global_p_bends", 1);
+
 function App() {
-  const [value, setValue] = useState(lwLibrary.createManyPuzzles(1));
+  const [value, setValue] = useState("LOST,WORDS");
+  const [showAnswers, setShowAnswer] = useState(false);
+
+  // const [time, setTime] = useState("");
+
+  const getWords = async () => {
+    // https://random-word-api.herokuapp.com/word?number=10
+
+    let result = "";
+
+    // https://random-word-api.herokuapp.com/home
+    let wordListToGenerateInPuzzle = await axios
+      .get(
+        "https://random-word-api.herokuapp.com/word?number=5&length=5&lang=en"
+      )
+      .then(function (response) {
+        // handle success
+        result = response.data.join(",");
+      })
+      .catch(function (error) {
+        // handle error
+        result = "LOST,WORDS";
+      })
+      .finally(function () {
+        // always executed
+        return result;
+      });
+
+    console.log(result);
+
+    wordListToGenerateInPuzzle = result?.toUpperCase();
+
+    let array = wordListToGenerateInPuzzle.split(",");
+    array = array.sort();
+    wordListToGenerateInPuzzle = array.join(",");
+
+    lwLibrary.setGlobalOptionValue(
+      "global_p_words",
+      wordListToGenerateInPuzzle
+    );
+
+    let rr = lwLibrary.createManyPuzzles(1);
+
+    setValue(rr);
+
+    return wordListToGenerateInPuzzle;
+  };
 
   const convertString = (string_value) => {
     if (!value) {
@@ -79,9 +127,11 @@ function App() {
           }
         }
 
-        if (anyFound) {
-          c = "blue;";
-          extra = "font-weight:900;";
+        if (showAnswers) {
+          if (anyFound) {
+            c = "blue;";
+            extra = "font-weight:900;";
+          }
         }
 
         currentLine +=
@@ -100,6 +150,16 @@ function App() {
     return currentLine;
   };
 
+  useEffect(() => {
+    // If the below code is enabled, will refresh rerender ever 1 second
+    // const intervalId = setInterval(() => {
+    //   setTime(new Date().toLocaleString());
+    // }, 1000);
+    // return () => {
+    //   clearInterval(intervalId);
+    // };
+  }, [value]);
+
   return (
     <>
       <div className="App">
@@ -111,16 +171,19 @@ function App() {
         <img src={logo} width={100} height={100} alt="buy me a coffee" />
 
         <h2>
+          <button onClick={getWords}>Generate Word Search!</button>
+        </h2>
+        <h2>
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              setValue(lwLibrary.createManyPuzzles(1));
+            onClick={() => {
+              setShowAnswer(!showAnswers);
             }}
           >
-            Generate again!
+            Answers
           </button>
         </h2>
       </div>
+      <div dangerouslySetInnerHTML={{ __html: value[0].p_words }} />
     </>
   );
 }
