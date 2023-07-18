@@ -155,10 +155,12 @@ function App() {
       <div className="App">
         <div className="container">
           <Row>
-            <p
-              className={"fs-6"}
-              dangerouslySetInnerHTML={{ __html: resultHtml }}
-            />
+            <a href="http://lostwords.org" style={{ textDecoration: "none" }}>
+              <p
+                className={"fs-6 content-to-hide"}
+                dangerouslySetInnerHTML={{ __html: resultHtml }}
+              />
+            </a>
           </Row>
           <Row>
             <Col>
@@ -250,7 +252,7 @@ function App() {
                 dangerouslySetInnerHTML={{ __html: value[0].p_words }}
               />
               <div
-                className={"fs-4"}
+                className={"fs-4 text-center"}
                 dangerouslySetInnerHTML={{
                   __html: convertString(value[0].p_data),
                 }}
