@@ -39,7 +39,7 @@ lwLibrary.setGlobalOptionValue("global_p_bends", 1);
 function App() {
   const [value, setValue] = useState("LOST,WORDS");
   const [showAnswers, setShowAnswers] = useState(0);
-  const [hintsOnly, setHintsOnly] = useState(true);
+  const [num, setNum] = useState(1);
 
   // const [time, setTime] = useState("");
 
@@ -51,7 +51,7 @@ function App() {
     // https://random-word-api.herokuapp.com/home
     let wordListToGenerateInPuzzle = await axios
       .get(
-        "https://random-word-api.herokuapp.com/word?number=5&length=6&lang=en"
+        `https://random-word-api.herokuapp.com/word?number=${num}&length=6&lang=en`
       )
       .then(function (response) {
         result = response.data.join(",");
@@ -99,9 +99,8 @@ function App() {
         let anyFound = false;
         let showHowManyHintLetters = value[0].p_locations.length;
 
-        if (hintsOnly) {
-          showHowManyHintLetters = showAnswers;
-        }
+        showHowManyHintLetters = showAnswers;
+
         for (let ii = 0; ii < value[0].p_locations.length; ii++) {
           let howManyPoints = value[0].p_locations[ii].split(",");
           for (let jj = 0; jj < showHowManyHintLetters; jj += 2) {
@@ -136,6 +135,12 @@ function App() {
 
   useEffect(() => {}, [value, showAnswers]);
 
+  // getWords();
+
+  useEffect(() => {
+    getWords();
+  }, [num]);
+
   return (
     <>
       <div className="App">
@@ -148,7 +153,25 @@ function App() {
           </Row>
           <Row>
             <Col>
+              <br />
+              <button
+                onClick={() => {
+                  setNum(1);
+                }}
+              >
+                Words 1
+              </button>
+              <br />
+              <button
+                onClick={() => {
+                  setNum(10);
+                }}
+              >
+                Words 10
+              </button>
+              <br />
               <button onClick={getWords}>Create</button>
+              <br />
               {/* @todo - convert to function call and not inline button click */}
               <button
                 onClick={() => {
@@ -164,6 +187,7 @@ function App() {
               >
                 Answers
               </button>
+              <br />
               {/* @todo - convert to function call and not inline button click */}
               <button
                 onClick={() => {
@@ -175,9 +199,9 @@ function App() {
                   getWords();
                 }}
               >
-                8
+                Size 8
               </button>
-              {/* @todo - convert to function call and not inline button click */}
+              <br />
               <button
                 onClick={() => {
                   puzzleSize = 14;
@@ -188,12 +212,53 @@ function App() {
                   getWords();
                 }}
               >
-                14
+                Size 14
               </button>
+              <br />
+              {/* @todo - convert to function call and not inline button click */}
+              <button
+                onClick={() => {
+                  lwLibrary.setGlobalOptionValue("global_p_bends", 0);
+                  getWords();
+                }}
+              >
+                Bends 0
+              </button>
+              <br />
+              <button
+                onClick={() => {
+                  lwLibrary.setGlobalOptionValue("global_p_bends", 1);
+                  getWords();
+                }}
+              >
+                Bends 1
+              </button>
+              <br />
+              <button
+                onClick={() => {
+                  lwLibrary.setGlobalOptionValue("global_p_bends", 9);
+                  getWords();
+                }}
+              >
+                Bends 9
+              </button>
+              <br />
+              <button
+                onClick={() => {
+                  lwLibrary.setGlobalOptionValue("global_p_bends", 999);
+                  getWords();
+                }}
+              >
+                Bends 999
+              </button>
+              <br />
             </Col>
 
             <Col>
-              <div dangerouslySetInnerHTML={{ __html: value[0].p_words }} />
+              <div
+                className={"fs-6"}
+                dangerouslySetInnerHTML={{ __html: value[0].p_words }}
+              />
               <div
                 dangerouslySetInnerHTML={{
                   __html: convertString(value[0].p_data),
