@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+
 import { Row, Col } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
+
 import "./index.css";
+
 import "./App.css";
+
+import Wordsearch from "./Components/Wordsearch";
 
 // @todo - make this a portable component and respect eslint rules for prettier code formatter, etc.
 
@@ -165,13 +169,12 @@ function App() {
 
   useEffect(() => {
     getWords();
+    // eslint-disable-next-line
   }, [num]);
 
   return (
     <>
       <div className="App">
-        {/* <div className="container"> */}
-        {/* <Row> */}
         <p>Lostwords</p>
         <a href="http://lostwords.org" style={{ textDecoration: "none" }}>
           <p
@@ -235,7 +238,7 @@ function App() {
                 getWords();
               }}
             >
-              Bends 0
+              Max Bends 0
             </button>
             <button
               onClick={() => {
@@ -278,8 +281,10 @@ function App() {
             />
           </Col>
         </Row>
+        <Row>
+          <Wordsearch />
+        </Row>
       </div>
-      {/* </div> */}
     </>
   );
 }
