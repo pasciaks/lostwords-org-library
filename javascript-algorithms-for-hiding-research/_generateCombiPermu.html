@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Grid Plotter</title>
+  </head>
+  <body>
+    <canvas
+      id="gridCanvas"
+      width="400"
+      height="400"
+      style="border: 1px solid black"
+    ></canvas>
+
+    <script>
+      function findPermutations(letters, combinationLength) {
+        const results = new Set();
+
+        function permute(current, remaining) {
+          if (current.length === combinationLength) {
+            results.add(current);
+            return;
+          }
+
+          for (let i = 0; i < remaining.length; i++) {
+            const nextCurrent = current + remaining[i];
+            const nextRemaining =
+              remaining.slice(0, i) + remaining.slice(i + 1);
+
+            // Check the constraint where certain letters cannot be followed by others
+            const lastLetter = current[current.length - 1];
+            const nextLetter = nextCurrent[nextCurrent.length - 1];
+            if (
+              !(lastLetter === "R" && nextLetter === "L") &&
+              !(lastLetter === "L" && nextLetter === "R") &&
+              !(lastLetter === "U" && nextLetter === "D") &&
+              !(lastLetter === "D" && nextLetter === "U")
+            ) {
+              permute(nextCurrent, nextRemaining);
+            }
+          }
+        }
+
+        permute("", letters);
+        return Array.from(results);
+      }
+
+      const combinationLength = 4;
+      const letters = "RULD".repeat(combinationLength);
+      const permutations = findPermutations(letters, combinationLength);
+
+      console.log(permutations);
+    </script>
+  </body>
+</html>

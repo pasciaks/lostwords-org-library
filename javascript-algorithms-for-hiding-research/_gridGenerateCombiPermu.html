@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Grid Plotter</title>
+  </head>
+  <body>
+    <canvas
+      id="gridCanvas"
+      width="400"
+      height="400"
+      style="border: 1px solid black"
+    ></canvas>
+
+    <script>
+      function getColorWithAlpha(index) {
+        if (index < 0 || index > 8) {
+          throw new Error(
+            "Index out of range. Expected values between 0 and 12."
+          );
+        }
+
+        // Map the index to alpha value between 0 and 1
+        const alpha = index / 8;
+
+        // Convert alpha value to range 0 to 255
+        const alpha255 = Math.round(alpha * 255);
+
+        // Return the rgba color string
+        return `rgba(255, ${alpha255}, 0, ${alpha255})`;
+      }
+
+      let paths2 = [
+        "RRRR",
+        "RRRU",
+        "RRRD",
+        "RRUR",
+        "RRUU",
+        "RRUL",
+        "RRDR",
+        "RRDL",
+        "RRDD",
+        "RURR",
+        "RURU",
+        "RURD",
+        "RUUR",
+        "RUUU",
+        "RUUL",
+        "RULU",
+        "RULL",
+        "RULD",
+        "RDRR",
+        "RDRU",
+        "RDRD",
+        "RDLU",
+        "RDLL",
+        "RDLD",
+        "RDDR",
+        "RDDL",
+        "RDDD",
+        "URRR",
+        "URRU",
+        "URRD",
+        "URUR",
+        "URUU",
+        "URUL",
+        "URDR",
+        "URDL",
+        "URDD",
+        "UURR",
+        "UURU",
+        "UURD",
+        "UUUR",
+        "UUUU",
+        "UUUL",
+        "UULU",
+        "UULL",
+        "UULD",
+        "ULUR",
+        "ULUU",
+        "ULUL",
+        "ULLU",
+        "ULLL",
+        "ULLD",
+        "ULDR",
+        "ULDL",
+        "ULDD",
+        "LURR",
+        "LURU",
+        "LURD",
+        "LUUR",
+        "LUUU",
+        "LUUL",
+        "LULU",
+        "LULL",
+        "LULD",
+        "LLUR",
+        "LLUU",
+        "LLUL",
+        "LLLU",
+        "LLLL",
+        "LLLD",
+        "LLDR",
+        "LLDL",
+        "LLDD",
+        "LDRR",
+        "LDRU",
+        "LDRD",
+        "LDLU",
+        "LDLL",
+        "LDLD",
+        "LDDR",
+        "LDDL",
+        "LDDD",
+        "DRRR",
+        "DRRU",
+        "DRRD",
+        "DRUR",
+        "DRUU",
+        "DRUL",
+        "DRDR",
+        "DRDL",
+        "DRDD",
+        "DLUR",
+        "DLUU",
+        "DLUL",
+        "DLLU",
+        "DLLL",
+        "DLLD",
+        "DLDR",
+        "DLDL",
+        "DLDD",
+        "DDRR",
+        "DDRU",
+        "DDRD",
+        "DDLU",
+        "DDLL",
+        "DDLD",
+        "DDDR",
+        "DDDL",
+        "DDDD",
+      ];
+
+      let paths3 = [
+        "RRRRR",
+        "RRRRU",
+        "RRRRD",
+        "RRRUR",
+        "RRRUU",
+        "RRRUL",
+        "RRRDR",
+        "RRRDL",
+        "RRRDD",
+        "RRURR",
+        "RRURU",
+        "RRURD",
+        "RRUUR",
+        "RRUUU",
+        "RRUUL",
+        "RRULU",
+        "RRULL",
+        "RRULD",
+        "RRDRR",
+        "RRDRU",
+        "RRDRD",
+        "RRDLU",
+        "RRDLL",
+        "RRDLD",
+        "RRDDR",
+        "RRDDL",
+        "RRDDD",
+        "RURRR",
+        "RURRU",
+        "RURRD",
+        "RURUR",
+        "RURUU",
+        "RURUL",
+        "RURDR",
+        "RURDL",
+        "RURDD",
+        "RUURR",
+        "RUURU",
+        "RUURD",
+        "RUUUR",
+        "RUUUU",
+        "RUUUL",
+        "RUULU",
+        "RUULL",
+        "RUULD",
+        "RULUR",
+        "RULUU",
+        "RULUL",
+        "RULLU",
+        "RULLL",
+        "RULLD",
+        "RULDR",
+        "RULDL",
+        "RULDD",
+        "RDRRR",
+        "RDRRU",
+        "RDRRD",
+        "RDRUR",
+        "RDRUU",
+        "RDRUL",
+        "RDRDR",
+        "RDRDL",
+        "RDRDD",
+        "RDLUR",
+        "RDLUU",
+        "RDLUL",
+        "RDLLU",
+        "RDLLL",
+        "RDLLD",
+        "RDLDR",
+        "RDLDL",
+        "RDLDD",
+        "RDDRR",
+        "RDDRU",
+        "RDDRD",
+        "RDDLU",
+        "RDDLL",
+        "RDDLD",
+        "RDDDR",
+        "RDDDL",
+        "RDDDD",
+        "URRRR",
+        "URRRU",
+        "URRRD",
+        "URRUR",
+        "URRUU",
+        "URRUL",
+        "URRDR",
+        "URRDL",
+        "URRDD",
+        "URURR",
+        "URURU",
+        "URURD",
+        "URUUR",
+        "URUUU",
+        "URUUL",
+        "URULU",
+        "URULL",
+        "URULD",
+        "URDRR",
+        "URDRU",
+        "URDRD",
+        "URDLU",
+        "URDLL",
+        "URDLD",
+        "URDDR",
+        "URDDL",
+        "URDDD",
+        "UURRR",
+        "UURRU",
+        "UURRD",
+        "UURUR",
+        "UURUU",
+        "UURUL",
+        "UURDR",
+        "UURDL",
+        "UURDD",
+        "UUURR",
+        "UUURU",
+        "UUURD",
+        "UUUUR",
+        "UUUUU",
+        "UUUUL",
+        "UUULU",
+        "UUULL",
+        "UUULD",
+        "UULUR",
+        "UULUU",
+        "UULUL",
+        "UULLU",
+        "UULLL",
+        "UULLD",
+        "UULDR",
+        "UULDL",
+        "UULDD",
+        "ULURR",
+        "ULURU",
+        "ULURD",
+        "ULUUR",
+        "ULUUU",
+        "ULUUL",
+        "ULULU",
+        "ULULL",
+        "ULULD",
+        "ULLUR",
+        "ULLUU",
+        "ULLUL",
+        "ULLLU",
+        "ULLLL",
+        "ULLLD",
+        "ULLDR",
+        "ULLDL",
+        "ULLDD",
+        "ULDRR",
+        "ULDRU",
+        "ULDRD",
+        "ULDLU",
+        "ULDLL",
+        "ULDLD",
+        "ULDDR",
+        "ULDDL",
+        "ULDDD",
+        "LURRR",
+        "LURRU",
+        "LURRD",
+        "LURUR",
+        "LURUU",
+        "LURUL",
+        "LURDR",
+        "LURDL",
+        "LURDD",
+        "LUURR",
+        "LUURU",
+        "LUURD",
+        "LUUUR",
+        "LUUUU",
+        "LUUUL",
+        "LUULU",
+        "LUULL",
+        "LUULD",
+        "LULUR",
+        "LULUU",
+        "LULUL",
+        "LULLU",
+        "LULLL",
+        "LULLD",
+        "LULDR",
+        "LULDL",
+        "LULDD",
+        "LLURR",
+        "LLURU",
+        "LLURD",
+        "LLUUR",
+        "LLUUU",
+        "LLUUL",
+        "LLULU",
+        "LLULL",
+        "LLULD",
+        "LLLUR",
+        "LLLUU",
+        "LLLUL",
+        "LLLLU",
+        "LLLLL",
+        "LLLLD",
+        "LLLDR",
+        "LLLDL",
+        "LLLDD",
+        "LLDRR",
+        "LLDRU",
+        "LLDRD",
+        "LLDLU",
+        "LLDLL",
+        "LLDLD",
+        "LLDDR",
+        "LLDDL",
+        "LLDDD",
+        "LDRRR",
+        "LDRRU",
+        "LDRRD",
+        "LDRUR",
+        "LDRUU",
+        "LDRUL",
+        "LDRDR",
+        "LDRDL",
+        "LDRDD",
+        "LDLUR",
+        "LDLUU",
+        "LDLUL",
+        "LDLLU",
+        "LDLLL",
+        "LDLLD",
+        "LDLDR",
+        "LDLDL",
+        "LDLDD",
+        "LDDRR",
+        "LDDRU",
+        "LDDRD",
+        "LDDLU",
+        "LDDLL",
+        "LDDLD",
+        "LDDDR",
+        "LDDDL",
+        "LDDDD",
+        "DRRRR",
+        "DRRRU",
+        "DRRRD",
+        "DRRUR",
+        "DRRUU",
+        "DRRUL",
+        "DRRDR",
+        "DRRDL",
+        "DRRDD",
+        "DRURR",
+        "DRURU",
+        "DRURD",
+        "DRUUR",
+        "DRUUU",
+        "DRUUL",
+        "DRULU",
+        "DRULL",
+        "DRULD",
+        "DRDRR",
+        "DRDRU",
+        "DRDRD",
+        "DRDLU",
+        "DRDLL",
+        "DRDLD",
+        "DRDDR",
+        "DRDDL",
+        "DRDDD",
+        "DLURR",
+        "DLURU",
+        "DLURD",
+        "DLUUR",
+        "DLUUU",
+        "DLUUL",
+        "DLULU",
+        "DLULL",
+        "DLULD",
+        "DLLUR",
+        "DLLUU",
+        "DLLUL",
+        "DLLLU",
+        "DLLLL",
+        "DLLLD",
+        "DLLDR",
+        "DLLDL",
+        "DLLDD",
+        "DLDRR",
+        "DLDRU",
+        "DLDRD",
+        "DLDLU",
+        "DLDLL",
+        "DLDLD",
+        "DLDDR",
+        "DLDDL",
+        "DLDDD",
+        "DDRRR",
+        "DDRRU",
+        "DDRRD",
+        "DDRUR",
+        "DDRUU",
+        "DDRUL",
+        "DDRDR",
+        "DDRDL",
+        "DDRDD",
+        "DDLUR",
+        "DDLUU",
+        "DDLUL",
+        "DDLLU",
+        "DDLLL",
+        "DDLLD",
+        "DDLDR",
+        "DDLDL",
+        "DDLDD",
+        "DDDRR",
+        "DDDRU",
+        "DDDRD",
+        "DDDLU",
+        "DDDLL",
+        "DDDLD",
+        "DDDDR",
+        "DDDDL",
+        "DDDDD",
+      ];
+
+      let paths = [];
+
+      const results2 = new Set();
+
+      for (var jj = 0; jj < paths2.length; jj++) {
+        for (var ii = 0; ii < paths2.length; ii++) {
+          let r = `${paths2[jj]}${paths2[ii]}`;
+          results2.add(r); // by using a Set, duplicates are easily prevented
+        }
+      }
+
+      paths = Array.from(results2); // by using a Set, duplicates are easily prevents - this converts set to array
+
+      let randomPathToGraph =
+        Math.floor(Math.random() * (paths.length - 1 - 0 + 1)) + 0;
+
+      for (var i = 0; i < paths.length; i++) {
+        // @todo - evaluate to see if any points collide and if they do, remove from the appropriate set
+        if (i == randomPathToGraph) {
+          let x1, y1;
+          x1 = 10;
+          y1 = 10;
+          let cp = paths[i];
+          for (var j = 0; j < cp.length; j++) {
+            plotPointOnGrid(x1, y1, j);
+            let cl = cp[j];
+            if (cl == "L") {
+              x1--;
+            }
+            if (cl == "R") {
+              x1++;
+            }
+            if (cl == "U") {
+              y1--;
+            }
+            if (cl == "D") {
+              y1++;
+            }
+          }
+        }
+      }
+
+      function plotPointOnGrid(x, y, c) {
+        const canvas = document.getElementById("gridCanvas");
+        const ctx = canvas.getContext("2d");
+        // ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const gridSize = 20; // Adjust this value to change the grid size
+        const gridWidth = canvas.width / gridSize;
+        const gridHeight = canvas.height / gridSize;
+
+        // Calculate the coordinates for the point on the grid
+        const plotX = x * gridWidth;
+        const plotY = y * gridHeight;
+
+        // Draw the point on the canvas
+        ctx.beginPath();
+        ctx.arc(plotX, plotY, 3, 0, 2 * Math.PI);
+        ctx.fillStyle = getColorWithAlpha(c); // window.rgba(111, 111, 111, c / 255); // "red"; // Adjust the color if needed
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      function findPermutations(letters, combinationLength) {
+        const results = new Set();
+
+        function permute(current, remaining) {
+          if (current.length === combinationLength) {
+            results.add(current);
+            return;
+          }
+
+          for (let i = 0; i < remaining.length; i++) {
+            const nextCurrent = current + remaining[i];
+            const nextRemaining =
+              remaining.slice(0, i) + remaining.slice(i + 1);
+
+            // Check the constraint where certain letters cannot be followed by others
+            const lastLetter = current[current.length - 1];
+            const nextLetter = nextCurrent[nextCurrent.length - 1];
+            if (
+              !(lastLetter === "R" && nextLetter === "L") &&
+              !(lastLetter === "L" && nextLetter === "R") &&
+              !(lastLetter === "U" && nextLetter === "D") &&
+              !(lastLetter === "D" && nextLetter === "U")
+            ) {
+              permute(nextCurrent, nextRemaining);
+            }
+          }
+        }
+
+        permute("", letters);
+
+        return Array.from(results);
+      }
+
+      const letters = "RRRRUUUULLLLDDDD";
+      const combinationLength = 4;
+      const permutations = findPermutations(letters, combinationLength);
+
+      console.log(permutations);
+    </script>
+  </body>
+</html>

@@ -89,13 +89,13 @@ function Wordsearch({
       {product.map(mapProductWords)}
       <hr></hr>
       <button onClick={setNumberOfWordsClick}>
-        Number of words{numberOfWords}
+        Number of words [{numberOfWords}]
       </button>
       <button onClick={setLengthOfWordsClick}>
-        Length of words{lengthOfWords}
+        Length of words [{lengthOfWords}]
       </button>
       <button onClick={setLanguageOfWordsClick}>
-        Language of words{languageOfWords}
+        Language of words [{languageOfWords}]
       </button>
       <hr></hr>
       <button onClick={setInvokeClick}>Invoke{invoke}</button>
