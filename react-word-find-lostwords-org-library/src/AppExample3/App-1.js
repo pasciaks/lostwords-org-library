@@ -39,12 +39,12 @@ lwLibrary.setGlobalOptionValue("global_squarePuzzleSize", puzzleSize);
 
 lwLibrary.setGlobalOptionValue("global_p_words", "LOST,WORDS");
 
-lwLibrary.setGlobalOptionValue("global_p_bends", 33);
+lwLibrary.setGlobalOptionValue("global_p_bends", 9);
 
 function App() {
   const [value, setValue] = useState("LOST,WORDS");
   const [showAnswers, setShowAnswers] = useState(999);
-  const [num, setNum] = useState(5);
+  const [num, setNum] = useState(1);
 
   // const [time, setTime] = useState("");
 
@@ -185,12 +185,6 @@ function App() {
         {/* </Row> */}
         <Row>
           <Col>
-            <hr></hr>
-            <Wordsearch />
-          </Col>
-
-          <Col>
-            <hr></hr>
             <button onClick={getWords}>Create</button>{" "}
             <button
               onClick={() => {
@@ -273,7 +267,6 @@ function App() {
           </Col>
 
           <Col>
-            <hr></hr>
             <div
               className={"fs-6"}
               dangerouslySetInnerHTML={{
@@ -287,6 +280,9 @@ function App() {
               }}
             />
           </Col>
+        </Row>
+        <Row>
+          <Wordsearch />
         </Row>
       </div>
     </>

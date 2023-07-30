@@ -81,13 +81,13 @@ function Wordsearch({
   }
 
   const mapProductWords = (theWord, index) => {
-    return <h1 key={{ index }}>{theWord?.toUpperCase()}</h1>;
+    return <span key={{ index }}>{theWord?.toUpperCase()} </span>;
   };
 
   return (
-    <div className="App">
+    <div>
       {product.map(mapProductWords)}
-      <hr></hr>
+
       <button onClick={setNumberOfWordsClick}>
         Number of words [{numberOfWords}]
       </button>
@@ -97,7 +97,7 @@ function Wordsearch({
       <button onClick={setLanguageOfWordsClick}>
         Language of words [{languageOfWords}]
       </button>
-      <hr></hr>
+
       <button onClick={setInvokeClick}>Invoke{invoke}</button>
     </div>
   );
