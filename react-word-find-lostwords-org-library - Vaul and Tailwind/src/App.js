@@ -21,7 +21,7 @@ function StyledMyComponent(props) {
   return (
     <Drawer.Root dismissible={false} open={props.open}>
       <Drawer.Trigger asChild onClick={() => props.setOpen(true)}>
-        <button class={outlineBtn}>Open Settings</button>
+        <button className={outlineBtn}>Open Settings</button>
       </Drawer.Trigger>
       <Drawer.Overlay className="fixed inset-0 bg-black/40" />
       <Drawer.Portal>
@@ -50,7 +50,7 @@ function StyledMyComponent(props) {
 function MyComponent(props) {
   return (
     <Drawer.Root>
-      <Drawer.Trigger class={borderedBtn}>Open Alternative word generator</Drawer.Trigger>
+      <Drawer.Trigger className={borderedBtn}>Open Alternative word generator</Drawer.Trigger>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
         <Drawer.Content className="bg-white flex flex-col fixed bottom-0 left-0 right-0 max-h-[85vh] rounded-t-[10px]">
@@ -244,8 +244,8 @@ function App() {
             <Col>
               <StyledMyComponent open={open} setOpen={setOpen}>
                 <hr></hr>
-                <button class={`${defaultButton}`} onClick={getWords}>Create</button>{" "}
-                <button class={`${defaultButton}`}
+                <button className={`${defaultButton}`} onClick={getWords}>Create</button>{" "}
+                <button className={`${defaultButton}`}
                   onClick={() => {
                     let cv = showAnswers;
                     if (cv === 0) {
@@ -263,12 +263,12 @@ function App() {
                   Answers
                 </button>
                 <br />
-                <button class={`${defaultButton}`} onClick={setone}>Words 1</button>{" "}
-                <button class={`${defaultButton}`} onClick={setfive}>Words 5</button>
+                <button className={`${defaultButton}`} onClick={setone}>Words 1</button>{" "}
+                <button className={`${defaultButton}`} onClick={setfive}>Words 5</button>
                 {/* @todo - convert to function call and not inline button click */}
                 <br />
                 {/* @todo - convert to function call and not inline button click */}
-                <button class={`${defaultButton}`}
+                <button className={`${defaultButton}`}
                   onClick={() => {
                     puzzleSize = 8;
                     lwLibrary.setGlobalOptionValue(
@@ -280,7 +280,7 @@ function App() {
                 >
                   Size 8
                 </button>
-                <button class={`${defaultButton}`}
+                <button className={`${defaultButton}`}
                   onClick={() => {
                     puzzleSize = 14;
                     lwLibrary.setGlobalOptionValue(
@@ -294,7 +294,7 @@ function App() {
                 </button>
                 <br />
                 {/* @todo - convert to function call and not inline button click */}
-                <button class={`${defaultButton}`}
+                <button className={`${defaultButton}`}
                   onClick={() => {
                     lwLibrary.setGlobalOptionValue("global_p_bends", 0);
                     getWords(); setOpen(false);
@@ -302,7 +302,7 @@ function App() {
                 >
                   Max Bends 0
                 </button>
-                <button class={`${defaultButton}`}
+                <button className={`${defaultButton}`}
                   onClick={() => {
                     lwLibrary.setGlobalOptionValue("global_p_bends", 1);
                     getWords(); setOpen(false);
@@ -310,7 +310,7 @@ function App() {
                 >
                   Bends 1
                 </button>
-                <button class={`${defaultButton}`}
+                <button className={`${defaultButton}`}
                   onClick={() => {
                     lwLibrary.setGlobalOptionValue("global_p_bends", 9);
                     getWords(); setOpen(false);
@@ -318,7 +318,7 @@ function App() {
                 >
                   Bends 9
                 </button>
-                <button class={`${defaultButton}`}
+                <button className={`${defaultButton}`}
                   onClick={() => {
                     lwLibrary.setGlobalOptionValue("global_p_bends", 999);
                     getWords();
@@ -350,6 +350,8 @@ function App() {
 
           <Col>
             <MyComponent open={open2} setOpen={setOpen2}>
+              <hr></hr>
+              <p>--==[Drag down to close]==--</p>
               <hr></hr>
               <Wordsearch defaultButtonClass={pillBtn} />
             </MyComponent>

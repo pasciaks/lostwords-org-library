@@ -86,19 +86,19 @@ function Wordsearch({
   };
 
   return (
-    <div class="grid h-screen place-items-center">
+    <div className="grid h-screen place-items-center">
       {product.map(mapProductWords)}
       <br></br>
-      <button class={defaultButtonClass} onClick={setNumberOfWordsClick}>
+      <button className={defaultButtonClass} onClick={setNumberOfWordsClick}>
         Number of words [{numberOfWords}]
       </button>
-      <button class={defaultButtonClass} onClick={setLengthOfWordsClick}>
+      <button className={defaultButtonClass} onClick={setLengthOfWordsClick}>
         Length of words [{lengthOfWords}]
       </button>
-      <button class={defaultButtonClass} onClick={setLanguageOfWordsClick}>
+      <button className={defaultButtonClass} onClick={setLanguageOfWordsClick}>
         Language of words [{languageOfWords}]
       </button>
-      <button class={defaultButtonClass} onClick={setInvokeClick}>Invoke{invoke}</button>
+      <button className={defaultButtonClass} onClick={setInvokeClick}>Invoke{invoke}</button>
       <br></br>
       <br></br>
       <br></br>
