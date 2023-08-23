@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -9,10 +9,10 @@ import { Drawer } from 'vaul';
 
 import Wordsearch from "./Components/Wordsearch";
 
-const outlineBtn = "hover:text-red-600 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded";
-const normalBtn = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded";
-const pillBtn = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full";
-const borderedBtn = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded";
+const outlineBtn = " bg-transparent hover:text-black text-blue-700 font-semibold py-1 px-1 border border-blue-500 hover:border-transparent rounded";
+const normalBtn = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded";
+const pillBtn = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded-full";
+const borderedBtn = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 border border-blue-700 rounded";
 
 const defaultButton = normalBtn;
 
@@ -29,21 +29,15 @@ function StyledMyComponent(props) {
           <div className="p-4 bg-white rounded-t-[10px] flex-1">
             <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-zinc-300 mb-8" />
             <div className="max-w-md mx-auto">
-              <Drawer.Title className="font-medium mb-4">
-                Unstyled drawer for React.
+              <Drawer.Title className="font-small m-1">
+                Drawer
               </Drawer.Title>
               {props.children}
-            </div>
-          </div>
-          <div className="p-4 bg-zinc-100 border-t border-zinc-200 mt-auto">
-            <div className="flex gap-6 justify-end max-w-md mx-auto">
-
             </div>
           </div>
         </Drawer.Content>
       </Drawer.Portal>
     </Drawer.Root>
-
   )
 }
 
@@ -54,7 +48,6 @@ function MyComponent(props) {
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
         <Drawer.Content className="bg-white flex flex-col fixed bottom-0 left-0 right-0 max-h-[85vh] rounded-t-[10px]">
-
           {props.children}
         </Drawer.Content>
         <Drawer.Overlay />
@@ -101,6 +94,8 @@ function App() {
   const [showAnswers, setShowAnswers] = useState(999);
   const [num, setNum] = useState(5);
 
+  const [stored, setStored] = useState(null);
+
   // const [time, setTime] = useState("");
 
   function convertWords(str = "") {
@@ -120,7 +115,11 @@ function App() {
     return totalText;
   }
 
-  const getWords = async () => {
+  const getWords = async (newWords = true, number) => {
+
+    if (!number) {
+      number = num;
+    }
     // https://random-word-api.herokuapp.com/word?number=10
 
     let result = "";
@@ -128,7 +127,7 @@ function App() {
     // https://random-word-api.herokuapp.com/home
     let wordListToGenerateInPuzzle = await axios
       .get(
-        `https://random-word-api.herokuapp.com/word?number=${num}&length=6&lang=en`
+        `https://random-word-api.herokuapp.com/word?number=${number}&length=6&lang=en`
       )
       .then(function (response) {
         result = response.data.join(",");
@@ -139,6 +138,12 @@ function App() {
       .finally(function () {
         return result;
       });
+
+    if (newWords) {
+      setStored(result);
+    } else {
+      result = stored;
+    }
 
     wordListToGenerateInPuzzle = result?.toUpperCase();
 
@@ -153,7 +158,7 @@ function App() {
 
     let rr = lwLibrary.createManyPuzzles(1);
 
-    setValue(rr); setOpen(false);
+    setValue(rr);
 
     return wordListToGenerateInPuzzle;
   };
@@ -210,32 +215,31 @@ function App() {
     return currentLine;
   };
 
+  const closeDrawer = () => {
+    setOpen(false);
+  }
+
   const setone = () => {
     setNum(1);
-    getWords(); setOpen(false);
+    getWords(true, 1);
   };
 
   const setfive = () => {
     setNum(5);
-    getWords(); setOpen(false);
+    getWords(true, 5);
   };
-
-  useEffect(() => { }, [value, showAnswers]);
-
-  useEffect(() => {
-    getWords(); setOpen(false);
-    // eslint-disable-next-line
-  }, [num]);
 
   return (
     <>
       <div className="App">
         <p>Lostwords</p>
         <a href="http://lostwords.org" style={{ textDecoration: "none" }}>
-          <p
-            className={"fs-6 content-to-hide"}
-            dangerouslySetInnerHTML={{ __html: resultHtml }}
-          />
+          {!open && (
+            <p
+              className={"fs-6 content-to-hide"}
+              dangerouslySetInnerHTML={{ __html: resultHtml }}
+            />
+          )}
         </a>
         {/* </Row> */}
 
@@ -243,31 +247,28 @@ function App() {
           <Row>
             <Col>
               <StyledMyComponent open={open} setOpen={setOpen}>
-                <hr></hr>
-                <button className={`${defaultButton}`} onClick={getWords}>Create</button>{" "}
+
+                <button className={`${defaultButton}`} onClick={getWords}>Create</button>
+
                 <button className={`${defaultButton}`}
                   onClick={() => {
                     let cv = showAnswers;
                     if (cv === 0) {
                       setShowAnswers(1);
-                      setOpen(false);
                     } else if (cv === 1) {
                       setShowAnswers(99);
-                      setOpen(false);
                     } else {
                       setShowAnswers(0);
-                      setOpen(false);
                     }
                   }}
                 >
                   Answers
                 </button>
-                <br />
-                <button className={`${defaultButton}`} onClick={setone}>Words 1</button>{" "}
+
+                <button className={`${defaultButton}`} onClick={setone}>Words 1</button>
+
                 <button className={`${defaultButton}`} onClick={setfive}>Words 5</button>
-                {/* @todo - convert to function call and not inline button click */}
-                <br />
-                {/* @todo - convert to function call and not inline button click */}
+
                 <button className={`${defaultButton}`}
                   onClick={() => {
                     puzzleSize = 8;
@@ -275,11 +276,12 @@ function App() {
                       "global_squarePuzzleSize",
                       puzzleSize
                     );
-                    getWords(); setOpen(false);
+                    getWords(false);
                   }}
                 >
                   Size 8
                 </button>
+
                 <button className={`${defaultButton}`}
                   onClick={() => {
                     puzzleSize = 14;
@@ -287,50 +289,61 @@ function App() {
                       "global_squarePuzzleSize",
                       puzzleSize
                     );
-                    getWords(); setOpen(false);
+                    getWords(false);
                   }}
                 >
                   Size 14
                 </button>
-                <br />
-                {/* @todo - convert to function call and not inline button click */}
+
                 <button className={`${defaultButton}`}
                   onClick={() => {
                     lwLibrary.setGlobalOptionValue("global_p_bends", 0);
-                    getWords(); setOpen(false);
+                    getWords(false);
                   }}
                 >
                   Max Bends 0
                 </button>
+
                 <button className={`${defaultButton}`}
                   onClick={() => {
                     lwLibrary.setGlobalOptionValue("global_p_bends", 1);
-                    getWords(); setOpen(false);
+                    getWords(false);
                   }}
                 >
                   Bends 1
                 </button>
+
                 <button className={`${defaultButton}`}
                   onClick={() => {
                     lwLibrary.setGlobalOptionValue("global_p_bends", 9);
-                    getWords(); setOpen(false);
+                    getWords(false);
                   }}
                 >
                   Bends 9
                 </button>
+
                 <button className={`${defaultButton}`}
                   onClick={() => {
                     lwLibrary.setGlobalOptionValue("global_p_bends", 999);
-                    getWords();
-                    setOpen(false);
+                    getWords(false);
+
                   }}
                 >
                   Bends 999
                 </button>
+
+                <button className={`${defaultButton}`}
+                  onClick={() => {
+                    closeDrawer();
+                  }}
+                >
+                  CLOSE
+                </button>
+
               </StyledMyComponent>
 
-
               <hr></hr>
+
               <div
                 className={"fs-6"}
                 dangerouslySetInnerHTML={{

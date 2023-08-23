@@ -82,56 +82,24 @@ function Wordsearch({
   }
 
   const mapProductWords = (theWord, index) => {
-    return <span key={{ index }}>{theWord?.toUpperCase()} </span>;
+    return <span key={`${index}${theWord}${Math.random()}`}>{theWord?.toUpperCase()} </span>;
   };
 
   return (
     <div className="grid h-screen place-items-center">
       {product.map(mapProductWords)}
-      <br></br>
-      <button className={defaultButtonClass} onClick={setNumberOfWordsClick}>
-        Number of words [{numberOfWords}]
-      </button>
-      <button className={defaultButtonClass} onClick={setLengthOfWordsClick}>
-        Length of words [{lengthOfWords}]
-      </button>
-      <button className={defaultButtonClass} onClick={setLanguageOfWordsClick}>
-        Language of words [{languageOfWords}]
-      </button>
-      <button className={defaultButtonClass} onClick={setInvokeClick}>Invoke{invoke}</button>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-
+      <div className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+        <button className={defaultButtonClass} onClick={setNumberOfWordsClick}>
+          Number of words [{numberOfWords}]
+        </button>
+        <button className={defaultButtonClass} onClick={setLengthOfWordsClick}>
+          Length of words [{lengthOfWords}]
+        </button>
+        <button className={defaultButtonClass} onClick={setLanguageOfWordsClick}>
+          Language of words [{languageOfWords}]
+        </button>
+        <button className={defaultButtonClass} onClick={setInvokeClick}>Invoke{invoke}</button>
+      </div>
     </div>
   );
 }
