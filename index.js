@@ -3,16 +3,18 @@ let global_squarePuzzleSize = 14;
 let global_p_bends = 0; // 0-999, use 999 for only90DegreeTurns
 let global_puzzleshapeoverride = "";
 let global_diagonals = "yes";
-let global_wordlistoption = "B";
+let global_wordlistoption = "A"; // A - random hint generated for each word [A]ny random choice, [R]eversed, [S]crambled, [N]o Vowels, [F]irst Letter and blanks [D]efault shows the word
 let global_title_name = "";
 let global_clueoption = "U"; // note: using a U here means don't allow duplicating use of letters
 let global_blanks = ""; //"[WORDLETTERS]"; //""; // "."; //"abcdefghijklmnopqrstuvwxyz1234567890";
-let global_p_words = "LOST,WORDS";
+let global_p_words = "LOST,WORDS,SHELDON,NODE,JAVASCRIPT";
 let global_post_msg = "Puzzle Solved";
 let global_pre_msg = "Good Luck";
 
 // -- Internal Use
+let global_hidden_words = '';
 let global_noDiagonals = false; // @todo - remove need for this by addressing with global_diagonals listed above
+let global_must_be_diagonal = false; // @todo - evaluate impacts based on bends, etc
 let global_puzzleData = "";
 let global_letterChoices = "";
 let global_p_data = "";
@@ -64,6 +66,72 @@ const setGlobalOptionValue = (variable, val) => {
 };
 
 /**
+ * arrayDifferences
+ * 
+ * @param {*} array1 
+ * @param {*} array2 
+ * @returns 
+ */
+function arrayDifferences(array1, array2) {
+  // Check if both inputs are arrays
+  if (!Array.isArray(array1) || !Array.isArray(array2)) {
+    return "Both inputs must be arrays.";
+  }
+
+  // Create arrays to hold differences
+  const differences1 = [];
+  const differences2 = [];
+
+  // Find differences in array1 compared to array2
+  for (const element of array1) {
+    if (!array2.includes(element)) {
+      differences1.push(element);
+    }
+  }
+
+  // Find differences in array2 compared to array1
+  for (const element of array2) {
+    if (!array1.includes(element)) {
+      differences2.push(element);
+    }
+  }
+
+  return [differences1, differences2];
+}
+
+/**
+ * compareArrays
+ * 
+ * @param {*} array1 
+ * @param {*} array2 
+ * @returns 
+ */
+function compareArrays(array1, array2) {
+  // Check if both inputs are arrays
+  if (!Array.isArray(array1) || !Array.isArray(array2)) {
+    return false;
+  }
+
+  // Check if the arrays have the same length
+  if (array1.length !== array2.length) {
+    return false;
+  }
+
+  // Sort the arrays to ensure consistent comparison
+  const sortedArray1 = array1.slice().sort();
+  const sortedArray2 = array2.slice().sort();
+
+  // Compare each element of the sorted arrays
+  for (let i = 0; i < sortedArray1.length; i++) {
+    if (sortedArray1[i] !== sortedArray2[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
  * reverseString
  *
  * @param {string} string_value
@@ -79,7 +147,8 @@ const reverseString = (string_value) => {
 };
 
 /**
- *
+ * scramble 
+ * 
  * @param {*} str
  * @returns
  */
@@ -97,7 +166,8 @@ const scramble = (str) => {
 };
 
 /**
- *
+ * randRange
+ * 
  * @param {*} min
  * @param {*} max
  * @returns
@@ -107,7 +177,8 @@ const randRange = (min, max) => {
 };
 
 /**
- *
+ * shrinkPuzzle
+ * 
  * @param {*} howManyShrunk
  * @param {*} xx
  * @param {*} yy
@@ -147,7 +218,8 @@ const shrinkPuzzle = (howManyShrunk, xx, yy, rr, bb, cc) => {
 };
 
 /**
- *
+ * createManyPuzzles
+ * 
  * @param {*} howManyToCreate
  * @returns
  */
@@ -156,7 +228,18 @@ const createManyPuzzles = (howManyToCreate = 1) => {
 
   for (let i = 0; i < howManyToCreate; i++) {
     makeLetterSet();
-    resultsArray.push(createPuzzle());
+    let r = createPuzzle();
+    let lineText = '';
+    for (var jj = 0; jj < global_squarePuzzleSize; jj++) {
+      for (var ii = 0; ii < global_squarePuzzleSize; ii++) {
+        lineText += getLetter(ii + 1, jj + 1) + " ";
+      }
+      console.log(lineText);
+      lineText = '';
+    }
+    console.log(lineText);
+    r.p_data = r.p_data.toUpperCase();
+    resultsArray.push(r);
   }
 
   if (resultsArray.length < 1) {
@@ -169,7 +252,8 @@ const createManyPuzzles = (howManyToCreate = 1) => {
 };
 
 /**
- *
+ * createPuzzle
+ * 
  * @returns
  */
 const createPuzzle = () => {
@@ -197,6 +281,8 @@ const createPuzzle = () => {
 
   let wordList = global_p_words.split(",");
 
+  global_hidden_words = global_p_words.split(",");
+
   let maxBends = global_p_bends;
 
   let pp = "";
@@ -212,9 +298,7 @@ const createPuzzle = () => {
   }
 
   let howManyHidden = 0;
-
   let missingWords = "";
-
   let hiddenWords = "";
 
   for (let index = 0; index < wordList.length; index++) {
@@ -254,7 +338,8 @@ const createPuzzle = () => {
 };
 
 /**
- *
+ * hideWordInPuzzle
+ * 
  * @param {*} bends
  * @param {*} theWord
  * @returns
@@ -295,7 +380,8 @@ const hideWordInPuzzle = (bends, theWord) => {
 };
 
 /**
- *
+ * makePointsFromPath
+ * 
  * @param {*} startc
  * @param {*} startr
  * @param {*} wordToUse
@@ -375,7 +461,8 @@ const makePointsFromPath = (startc, startr, wordToUse) => {
 };
 
 /**
- *
+ * setPointsFromPath
+ * 
  * @param {*} wordToUse
  * @returns
  */
@@ -401,7 +488,8 @@ const setPointsFromPath = (wordToUse) => {
 };
 
 /**
- *
+ * findPoint
+ * 
  * @param {*} valX
  * @param {*} valY
  * @returns
@@ -419,7 +507,8 @@ const findPoint = (valX, valY) => {
 };
 
 /**
- *
+ * createPath
+ * 
  * @param {*} maxBends
  * @param {*} wordToUse
  * @returns
@@ -440,11 +529,14 @@ const createPath = (maxBends, wordToUse) => {
 
   let dx = 0;
   let dy = 0;
+  let isDiagonal = false;
 
   do {
     dx = 2 - randRange(1, 3); // -1, 0, 1
     dy = 2 - randRange(1, 3); // -1, 0, 1
+    isDiagonal = dx !== 0 && dy !== 0;
   } while (
+    (!isDiagonal && global_must_be_diagonal) ||
     (dx === 0 && dy === 0) ||
     (global_noDiagonals === true && dx !== 0 && dy !== 0)
   );
@@ -491,7 +583,8 @@ const createPath = (maxBends, wordToUse) => {
 };
 
 /**
- *
+ * createEmptyPuzzleShape
+ * 
  * @param {*} global_squarePuzzleSize
  * @param {*} global_squarePuzzleSize
  * @param {*} data
@@ -512,7 +605,8 @@ const createEmptyPuzzleShape = (global_squarePuzzleSize, data) => {
 };
 
 /**
- *
+ * createEmptyPuzzle
+ * 
  * @param {*} global_squarePuzzleSize
  * @param {*} global_squarePuzzleSize
  * @returns
@@ -532,7 +626,8 @@ const createEmptyPuzzle = (global_squarePuzzleSize) => {
 };
 
 /**
- *
+ * fillBlanks
+ * 
  * @param {*} blankCharacters
  */
 const fillBlanks = (blankCharacters) => {
@@ -558,16 +653,17 @@ const fillBlanks = (blankCharacters) => {
       if (getLetter(c, r) === "-") {
         letter =
           global_letterChoices[
-            Math.floor(Math.random() * global_letterChoices.length)
+          Math.floor(Math.random() * global_letterChoices.length)
           ];
-        setLetter(c, r, letter);
+        setLetter(c, r, letter.toLowerCase());
       }
     }
   }
 };
 
 /**
- *
+ * getLetter
+ * 
  * @param {*} col
  * @param {*} row
  * @returns
@@ -589,7 +685,8 @@ const setLetter = (col, row, letter) => {
 };
 
 /**
- *
+ * setCharAt
+ * 
  * @param {*} str
  * @param {*} index
  * @param {*} chr
@@ -602,6 +699,7 @@ const setCharAt = (str, index, chr) => {
 
 /**
  * createSqlFromFilledform
+ * 
  * @returns
  */
 const createSqlFromFilledform = () => {
@@ -639,13 +737,35 @@ const createSqlFromFilledform = () => {
     }
   }
 
+  let randomLetterChoice;
+
   for (let wl = 0; wl < ArrayOfWords.length; wl++) {
     if (ArrayOfWords[wl]) {
       if (ArrayOfClues[wl] == "") {
-        if (Math.random() > 0.5) {
-          ArrayOfClues[wl] = "r_" + reverseString(ArrayOfWords[wl]);
+
+        if (global_wordlistoption === 'A') {
+          randomLetterChoice = 'RSNFD';
+          randomLetterChoice = randomLetterChoice[Math.floor(Math.random() * randomLetterChoice.length)];
         } else {
-          ArrayOfClues[wl] = "s_" + scramble(ArrayOfWords[wl]);
+          randomLetterChoice = global_wordlistoption
+        }
+
+        switch (randomLetterChoice) {
+          case 'R':
+            ArrayOfClues[wl] = "r_" + reverseString(ArrayOfWords[wl]);
+            break;
+          case 'S':
+            ArrayOfClues[wl] = "s_" + scramble(ArrayOfWords[wl]);
+            break;
+          case 'N':
+            ArrayOfClues[wl] = "n_" + ArrayOfWords[wl].replace(/[aeiouAEIOU]/g, '');
+            break;
+          case 'F':
+            ArrayOfClues[wl] = "f_" + ArrayOfWords[wl][0] + '-'.repeat(ArrayOfWords[wl].length - 1);
+            break;
+          default:
+            ArrayOfClues[wl] = "d_" + ArrayOfWords[wl];
+            break;
         }
       }
     }
@@ -661,6 +781,7 @@ const createSqlFromFilledform = () => {
   let locarr = new Array();
   let coordsPair = '"';
   let coordLength = ArrayOfWords.length;
+
   let hasFailed = false;
 
   for (let wl = 0; wl < ArrayOfWords.length; wl++) {
@@ -694,12 +815,19 @@ const createSqlFromFilledform = () => {
     if (wl < coordLength - 1) locationsString += ",";
   }
 
-  if (hasFailed) {
-  }
-
   let PuzzleName = global_title_name;
 
   if (PuzzleName == "") PuzzleName = "Untitled Puzzle";
+
+  if (compareArrays(ArrayOfWords, global_hidden_words)) {
+    console.log("It appears that all words were hidden.");
+  } else {
+    console.log("It appears that all words were NOT hidden.");
+    console.log(ArrayOfWords);
+    hasFailed = true;
+    const differences = arrayDifferences(ArrayOfWords, global_hidden_words);
+    console.log("Words NOT expliciity hidden:", differences[1]);
+  }
 
   createdPuzzleObject = new Object();
   createdPuzzleObject.creator_id = 1;
@@ -714,6 +842,7 @@ const createSqlFromFilledform = () => {
   createdPuzzleObject.p_bends = global_p_bends;
   createdPuzzleObject.p_words = ArrayOfWords;
   createdPuzzleObject.p_locations = locarr;
+  createdPuzzleObject.p_failed = hasFailed;
   createdPuzzleObject.p_clues = ArrayOfClues;
   createdPuzzleObject.p_wordoptions = global_wordlistoption;
   createdPuzzleObject.p_clueoptions = global_clueoption; // @todo - document use, e.g. U for puzzle doesn't allow duplicate use of letters
@@ -722,7 +851,8 @@ const createSqlFromFilledform = () => {
 };
 
 /**
- *
+ * makeLetterSet
+ * 
  * @returns
  */
 const makeLetterSet = () => {
