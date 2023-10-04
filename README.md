@@ -54,11 +54,16 @@ let lwl = require("@pasciaks/lostwords-org-library");
 // Number of rows and columns to build puzzle grid, for example 8
 let g_squarePuzzleSize = 8;
 
-// Number of bends in the words while hiding, for example 0 (straight line hides)
+// Number of bends in the words while hiding
+// For example 0 (straight line hides)
+// For example 2 (max of 2 bends)
+// For example 999 (only 90 degree bends)
 let g_p_bends = 0;
 
 // Allow Diagonals - "yes" | "no"
 let g_diagonals = "yes";
+
+// Option for word hint generation.
 
 // [A]ny, Randomly chooses one of the following
 // [R]eversed,
@@ -71,10 +76,13 @@ let g_wordlistoption = "A";
 // String title of the puzzle
 let g_title_name = "Title";
 
-// Hide Option - "U" | "" Using a U here means don't allow duplicating use of letters;
+// Hide Option - "U" | ""
+
+// Using a "U" here means don't duplicate use of letters
 let g_clueoption = "U";
 
 // Fill in remaining letters of grid with selection given.
+
 // "" - Use random letters from english alphabet upper case
 // "[WORDLETTERS]" - Use random letters from any letters from words hidden
 // "1234ADFB" - Use random letters from provided list of letters
@@ -124,7 +132,8 @@ $npm run test
 
 ```
 
-It appears that all words were hidden.
+The p_data value holds the letters.
+These letters can be drawn into a square grid.
 
 u c d y e d r n e t s e u t
 y t x s r e e e t o e m m d
