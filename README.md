@@ -4,19 +4,11 @@
 
 # Word search Puzzle Maker
 
-### Function to create square word search puzzle.
+### Javascript library/function that will create a SQUARE word search puzzle.
 
 Note: This code is from many years ago and just being added to npm and the related Github repository as a way to establish a growing, improved code base.
 
-The goal will be to class base this source code, apply typescript and perhaps adapt the current 'random' algorithm to create the word search data with priorities to include:
-
-- Planned List of Priorities
-  - Adapt for other languages.
-    - JAVA
-    - C#
-    - Python
-  - Improve algorithm for non random, depth-first-search, flood-fill type algorithm implementations.
-  - Establish example web and other applications in variety of frameworks that use this generation library.
+The goal might be to Class base this source code, apply typescript and perhaps adapt the current 'random' algorithm to create the word search data for use with other programming languages as well as improved algorithms. Additionally, efforts may include creating example applications/websites that make use of the library.
 
 ---
 
@@ -29,7 +21,7 @@ npm install @pasciaks/lostwords-org-library
 ```
 
 ```javascript
-// Javascript usage
+// Simple Javascript usage
 
 const { createManyPuzzles } = require("@pasciaks/lostwords-org-library");
 
@@ -48,6 +40,77 @@ let lostwordsOrgLibrary = require("@pasciaks/lostwords-org-library");
 console.log(lostwordsOrgLibrary.createManyPuzzles(1));
 ```
 
+```javascript
+// Configurable options for creating a word find with your words, etc.
+
+let lwl = require("@pasciaks/lostwords-org-library");
+
+//--------------------------------------------------------------------
+// Possible use local variables to hold configured settings
+//--------------------------------------------------------------------
+
+// Number of rows and columns to build puzzle grid, for example 8
+let g_squarePuzzleSize = 8;
+
+// Number of bends in the words while hiding, for example 0 (straight line hides)
+let g_p_bends = 0;
+
+// Allow Diagonals - "yes" | "no"
+let g_diagonals = "yes";
+
+// [A]ny, Randomly chooses one of the following
+// [R]eversed,
+// [S]crambled,
+// [N]o Vowels,
+// [F]irst Letter and blanks
+// [D]efault shows the word;
+let g_wordlistoption = "A";
+
+// String title of the puzzle
+let g_title_name = "Title";
+
+// Hide Option - "U" | "" Using a U here means don't allow duplicating use of letters;
+let g_clueoption = "U";
+
+// Fill in remaining letters of grid with selection given.
+// "" - Use random letters from english alphabet upper case
+// "[WORDLETTERS]" - Use random letters from any letters from words hidden
+// "1234ADFB" - Use random letters from provided list of letters
+let g_blanks = "";
+
+// Comma separated string of words to hide, upper case, no spaces
+let g_p_words = "LOST,WORDS,SHELDON,NODE,JAVASCRIPT";
+
+// String for post_msg title
+let g_post_msg = "Puzzle Solved";
+
+// String for pre_msg title
+let g_pre_msg = "Good Luck";
+
+//--------------------------------------------------------------------
+// Set the settings
+//--------------------------------------------------------------------
+
+lwl.setGlobalOptionValue("g_squarePuzzleSize", g_squarePuzzleSize);
+lwl.setGlobalOptionValue("g_p_bends", g_p_bends);
+lwl.setGlobalOptionValue("g_diagonals", g_diagonals);
+lwl.setGlobalOptionValue("g_wordlistoption", g_wordlistoption);
+lwl.setGlobalOptionValue("g_title_name", g_title_name);
+lwl.setGlobalOptionValue("g_clueoption", g_clueoption);
+lwl.setGlobalOptionValue("g_blanks", g_blanks);
+lwl.setGlobalOptionValue("g_p_words", g_p_words);
+lwl.setGlobalOptionValue("g_post_msg", g_post_msg);
+lwl.setGlobalOptionValue("g_pre_msg", g_pre_msg);
+
+//--------------------------------------------------------------------
+// Create the puzzle data by running the library
+//--------------------------------------------------------------------
+
+let result = lwl.createManyPuzzles(1);
+
+console.log(result);
+```
+
 # Test
 
 To test this code, execute the following in your bash shell or terminal window.
@@ -55,8 +118,12 @@ To test this code, execute the following in your bash shell or terminal window.
 ```bash
 # test
 $npm run test
+```
+
+```
 
 It appears that all words were hidden.
+
 u c d y e d r n e t s e u t
 y t x s r e e e t o e m m d
 i r l d a r d o d t y t o n
