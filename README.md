@@ -48,17 +48,17 @@ let lwl = require("@pasciaks/lostwords-org-library");
 //--------------------------------------------------------------------
 
 // Number of rows and columns to build puzzle grid, for example 8
-let g_squarePuzzleSize = 8;
+let global_squarePuzzleSize = 8;
 
 // Number of bends in the words for hiding them.
 
 // For example 0 (straight line hides)
 // For example 2 (max of 2 bends)
 // For example 999 (only 90 degree bends)
-let g_p_bends = 0;
+let global_p_bends = 0;
 
 // Allow Diagonals - "yes" | "no"
-let g_diagonals = "yes";
+let global_diagonals = "yes";
 
 // Option for word hint generation.
 
@@ -68,46 +68,46 @@ let g_diagonals = "yes";
 // [N]o Vowels,
 // [F]irst Letter and blanks
 // [D]efault shows the word;
-let g_wordlistoption = "A";
+let global_wordlistoption = "A";
 
 // String title of the puzzle.
-let g_title_name = "Title";
+let global_title_name = "Title";
 
 // Letter use/hide option - "U" | ""
 
 // Using a "U" here means don't duplicate use of letters
-let g_clueoption = "U";
+let global_clueoption = "U";
 
 // Fill in remaining letters of grid with selection given.
 
 // "" - Use random letters from english alphabet in upper case
 // "[WORDLETTERS]" - Use random letters from any letters from words hidden
 // "1234ADFB" - Use random letters from provided list of letters
-let g_blanks = "";
+let global_blanks = "";
 
 // Comma separated string of words to hide, upper case, no spaces
-let g_p_words = "LOST,WORDS,SHELDON,NODE,JAVASCRIPT";
+let global_p_words = "LOST,WORDS,SHELDON,NODE,JAVASCRIPT";
 
 // String for post_msg title
-let g_post_msg = "Puzzle Solved";
+let global_post_msg = "Puzzle Solved";
 
 // String for pre_msg title
-let g_pre_msg = "Good Luck";
+let global_pre_msg = "Good Luck";
 
 //--------------------------------------------------------------------
 // Set the settings
 //--------------------------------------------------------------------
 
-lwl.setGlobalOptionValue("g_squarePuzzleSize", g_squarePuzzleSize);
-lwl.setGlobalOptionValue("g_p_bends", g_p_bends);
-lwl.setGlobalOptionValue("g_diagonals", g_diagonals);
-lwl.setGlobalOptionValue("g_wordlistoption", g_wordlistoption);
-lwl.setGlobalOptionValue("g_title_name", g_title_name);
-lwl.setGlobalOptionValue("g_clueoption", g_clueoption);
-lwl.setGlobalOptionValue("g_blanks", g_blanks);
-lwl.setGlobalOptionValue("g_p_words", g_p_words);
-lwl.setGlobalOptionValue("g_post_msg", g_post_msg);
-lwl.setGlobalOptionValue("g_pre_msg", g_pre_msg);
+lwl.setGlobalOptionValue("global_squarePuzzleSize", global_squarePuzzleSize);
+lwl.setGlobalOptionValue("global_p_bends", global_p_bends);
+lwl.setGlobalOptionValue("global_diagonals", global_diagonals);
+lwl.setGlobalOptionValue("global_wordlistoption", global_wordlistoption);
+lwl.setGlobalOptionValue("global_title_name", global_title_name);
+lwl.setGlobalOptionValue("global_clueoption", global_clueoption);
+lwl.setGlobalOptionValue("global_blanks", global_blanks);
+lwl.setGlobalOptionValue("global_p_words", global_p_words);
+lwl.setGlobalOptionValue("global_post_msg", global_post_msg);
+lwl.setGlobalOptionValue("global_pre_msg", global_pre_msg);
 
 //--------------------------------------------------------------------
 // Create the puzzle data by running the library
