@@ -8,8 +8,6 @@
 
 Note: This code is from many years ago and just being added to npm and the related Github repository as a way to establish a growing, improved code base.
 
-The goal might be to Class base this source code, apply typescript and perhaps adapt the current 'random' algorithm to create the word search data for use with other programming languages as well as improved algorithms. Additionally, efforts may include creating example applications/websites that make use of the library.
-
 ---
 
 ```bash
@@ -17,8 +15,6 @@ The goal might be to Class base this source code, apply typescript and perhaps a
 # npm install
 
 npm install @pasciaks/lostwords-org-library
-
-npm run test
 
 ```
 
@@ -37,9 +33,9 @@ console.log("Puzzles Created:", result.length);
 ```javascript
 // Runkit usage example
 
-let lostwordsOrgLibrary = require("@pasciaks/lostwords-org-library");
+let lwl = require("@pasciaks/lostwords-org-library");
 
-console.log(lostwordsOrgLibrary.createManyPuzzles(1));
+console.log(lwl.createManyPuzzles(1));
 ```
 
 ```javascript
@@ -48,13 +44,14 @@ console.log(lostwordsOrgLibrary.createManyPuzzles(1));
 let lwl = require("@pasciaks/lostwords-org-library");
 
 //--------------------------------------------------------------------
-// Possible use local variables to hold configured settings
+// Use local variables to hold configured settings
 //--------------------------------------------------------------------
 
 // Number of rows and columns to build puzzle grid, for example 8
 let g_squarePuzzleSize = 8;
 
-// Number of bends in the words while hiding
+// Number of bends in the words for hiding them.
+
 // For example 0 (straight line hides)
 // For example 2 (max of 2 bends)
 // For example 999 (only 90 degree bends)
@@ -73,17 +70,17 @@ let g_diagonals = "yes";
 // [D]efault shows the word;
 let g_wordlistoption = "A";
 
-// String title of the puzzle
+// String title of the puzzle.
 let g_title_name = "Title";
 
-// Hide Option - "U" | ""
+// Letter use/hide option - "U" | ""
 
 // Using a "U" here means don't duplicate use of letters
 let g_clueoption = "U";
 
 // Fill in remaining letters of grid with selection given.
 
-// "" - Use random letters from english alphabet upper case
+// "" - Use random letters from english alphabet in upper case
 // "[WORDLETTERS]" - Use random letters from any letters from words hidden
 // "1234ADFB" - Use random letters from provided list of letters
 let g_blanks = "";
@@ -133,7 +130,8 @@ $npm run test
 ```
 
 The p_data value holds the letters.
-These letters can be drawn into a square grid.
+
+These letters can be used to create a square grid.
 
 u c d y e d r n e t s e u t
 y t x s r e e e t o e m m d
@@ -175,6 +173,8 @@ Puzzles Created: 1
 
 ```
 
-This website was the source for this library. [Lostwords.org](http://lostwords.org).
+This website demonstrates use of the library. [Demo Website](https://sheldon.pasciak.com/).
+
+This website implements a full featured game using the library. [Lostwords.org](http://lostwords.org).
 
 Contribute and support this effort by donating to my cause. [Contribute/Support](https://www.buymeacoffee.com/shelpasc).
