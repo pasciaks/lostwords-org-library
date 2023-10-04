@@ -18,6 +18,8 @@ The goal might be to Class base this source code, apply typescript and perhaps a
 
 npm install @pasciaks/lostwords-org-library
 
+npm run test
+
 ```
 
 ```javascript

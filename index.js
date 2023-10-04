@@ -1,20 +1,20 @@
 // -- Externally configurable
 let global_squarePuzzleSize = 14;
-let global_p_bends = 0; // 0-999, use 999 for only90DegreeTurns
+let global_p_bends = 0;
 let global_puzzleshapeoverride = "";
 let global_diagonals = "yes";
-let global_wordlistoption = "A"; // A - random hint generated for each word [A]ny random choice, [R]eversed, [S]crambled, [N]o Vowels, [F]irst Letter and blanks [D]efault shows the word
+let global_wordlistoption = "A";
 let global_title_name = "";
-let global_clueoption = "U"; // note: using a U here means don't allow duplicating use of letters
-let global_blanks = ""; //"[WORDLETTERS]"; //""; // "."; //"abcdefghijklmnopqrstuvwxyz1234567890";
+let global_clueoption = "U";
+let global_blanks = "";
 let global_p_words = "LOST,WORDS,SHELDON,NODE,JAVASCRIPT";
 let global_post_msg = "Puzzle Solved";
 let global_pre_msg = "Good Luck";
 
 // -- Internal Use
 let global_hidden_words = '';
-let global_noDiagonals = false; // @todo - remove need for this by addressing with global_diagonals listed above
-let global_must_be_diagonal = false; // @todo - evaluate impacts based on bends, etc
+let global_noDiagonals = false;
+let global_must_be_diagonal = false;
 let global_puzzleData = "";
 let global_letterChoices = "";
 let global_p_data = "";
@@ -234,10 +234,8 @@ const createManyPuzzles = (howManyToCreate = 1) => {
       for (var ii = 0; ii < global_squarePuzzleSize; ii++) {
         lineText += getLetter(ii + 1, jj + 1) + " ";
       }
-      console.log(lineText);
       lineText = '';
     }
-    console.log(lineText);
     r.p_data = r.p_data.toUpperCase();
     resultsArray.push(r);
   }
@@ -820,13 +818,9 @@ const createSqlFromFilledform = () => {
   if (PuzzleName == "") PuzzleName = "Untitled Puzzle";
 
   if (compareArrays(ArrayOfWords, global_hidden_words)) {
-    console.log("It appears that all words were hidden.");
   } else {
-    console.log("It appears that all words were NOT hidden.");
-    console.log(ArrayOfWords);
     hasFailed = true;
-    const differences = arrayDifferences(ArrayOfWords, global_hidden_words);
-    console.log("Words NOT expliciity hidden:", differences[1]);
+    arrayDifferences(ArrayOfWords, global_hidden_words);
   }
 
   createdPuzzleObject = new Object();
@@ -845,7 +839,7 @@ const createSqlFromFilledform = () => {
   createdPuzzleObject.p_failed = hasFailed;
   createdPuzzleObject.p_clues = ArrayOfClues;
   createdPuzzleObject.p_wordoptions = global_wordlistoption;
-  createdPuzzleObject.p_clueoptions = global_clueoption; // @todo - document use, e.g. U for puzzle doesn't allow duplicate use of letters
+  createdPuzzleObject.p_clueoptions = global_clueoption;
 
   return { created: createdPuzzleObject };
 };
