@@ -187,4 +187,4 @@ Contribute and support this effort by donating to my cause. [Contribute/Support]
 
 ## The plan is to incorporate this new AI Assisted algorithm into the createManyPuzzles function of this library in the near future. (Oct, 2023)
 
-Example [Word Hiding Algo Example](./examples/word-hiding-algo.html).
+Example [Word Hiding Algo Example](https://pasciak.com/word-hiding-algo.html).
