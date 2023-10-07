@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- <meta http-equiv="refresh" content="1" /> -->
+    <!-- <meta http-equiv="refresh" content="15" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Word hiding paths</title>
   </head>
@@ -28,18 +28,16 @@
         [1, 0], // Down
         [0, -1], // Left
         [0, 1], // Right
-        [1, 1],
-        [-1, -1],
-        [1, -1],
-        [-1, 1],
+        [1, 1], // Up and Right
+        [-1, -1], // Up and Left
+        [1, -1], // Down and Left
+        [-1, 1], // Up and Right
       ];
 
-      // directions = [
-      //   [0, 1],
-      //   [1, 0],
-      //   [-1, 0],
-      //   [0, -1],
-      // ];
+      let ind = Math.floor(Math.random() * 8);
+
+      // enable below for static direction
+      // directions = [[directions[ind][0], directions[ind][1]]];
 
       const allPaths = findAllSnakePaths(word, word.length);
 
@@ -81,6 +79,7 @@
 
       function displayWordSnake() {
         const canvas = document.getElementById("gridCanvas");
+
         const ctx = canvas.getContext("2d");
 
         ctx.fillStyle = "blue";
@@ -385,13 +384,13 @@
           Math.floor(Math.random() * 16777215)
             .toString(16)
             .padStart(6, "0");
-
         function drawCircle(x, y, l) {
           ctx.beginPath();
-          // ctx.fillStyle = "white"; //"red"; // Circle color
-          // ctx.fillRect(x, y - gridSize, gridSize, gridSize);
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = "gold"; //"red"; // Circle color
+          ctx.strokeRect(x, y - gridSize, gridSize, gridSize);
           const text = l;
-          ctx.font = "12px Arial"; // Set the font size and style
+          ctx.font = "14px Courier"; // Set the font size and style
           ctx.fill();
           ctx.fillStyle = randomHexColor;
           ctx.fillText(text, x, y); // Draw the text at (x, y)
@@ -401,13 +400,11 @@
         }
 
         let iiii = 0;
-        let first = true;
+
         let iii = Math.floor(Math.random() * coordinates.length);
 
         for (const path of coordinates) {
           if (iiii === iii) {
-            // console.log(path);
-            first = false;
             let ci = 0;
             for (const [row, col] of path) {
               const x = col * gridSize;
@@ -422,7 +419,7 @@
       }
       setInterval(() => {
         displayWordSnake();
-      }, 1000);
+      }, 100);
       displayWordSnake();
     </script>
   </body>
