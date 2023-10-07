@@ -188,3 +188,8 @@ Contribute and support this effort by donating to my cause. [Contribute/Support]
 ## The plan is to incorporate this new AI Assisted algorithm into the createManyPuzzles function of this library in the near future. (Oct, 2023)
 
 Example [Word Hiding Algo Example](https://pasciak.com/word-hiding-algo.html).
+
+### Notes for optimization considerations...
+
+- [ ] Store all possible paths and use from disk rather than generate each time?
+- [ ] Prior to finding paths, mark any gird locations containing letters that aren't in the word path being created as already visited?

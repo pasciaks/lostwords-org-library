@@ -20,32 +20,52 @@
       one of many possible random word hiding paths.
     </div>
 
+    <div>
+      Based on word length, the number of paths possible grow exponentially?
+    </div>
+
     <script>
-      const word = "LOSTWORDS";
+      const grid_size = 20;
+      const gridSize = 10;
+
+      const word = "SHELDON";
 
       let directions = [
         [-1, 0], // Up
         [1, 0], // Down
         [0, -1], // Left
         [0, 1], // Right
-        [1, 1], // Up and Right
+        [1, 1], // Down and Right
         [-1, -1], // Up and Left
         [1, -1], // Down and Left
         [-1, 1], // Up and Right
       ];
 
+      // Note: one direction
+      // directions = [
+      //   [1, 1], // Down and Right
+      // ];
+
+      // Note: only path find down and right, the duplicate and transpose to the 3 other directions for quicker algo result... ?
+      // directions = [
+      //   [1, 0], // Down
+      //   [0, 1], // Right
+      //   [1, 1], // Down and Right
+      // ];
+
       let ind = Math.floor(Math.random() * 8);
 
-      // enable below for static direction
+      // NOTE: Enable below for static direction
       // directions = [[directions[ind][0], directions[ind][1]]];
 
-      const allPaths = findAllSnakePaths(word, word.length);
+      const allPaths = findAllSnakePaths(word);
 
-      function findAllSnakePaths(word, gs) {
-        const grid_size = 20;
+      console.log(allPaths.length);
+
+      function findAllSnakePaths(word) {
         const center = Math.floor(grid_size / 2);
 
-        const validPaths = [];
+        let validPaths = [];
 
         function isInsideGrid(x, y) {
           return x >= 0 && x < grid_size && y >= 0 && y < grid_size;
@@ -64,6 +84,8 @@
             if (
               isInsideGrid(newX, newY) &&
               !path.some((coords) => coords[0] === newX && coords[1] === newY)
+              // Note: This is where it checks for 'already visited'
+              // Note: // consider a check that allows this path if the current letter equals the possible letter at this coordinate
             ) {
               path.push([newX, newY]);
               findPathsRecursive(newX, newY, path);
@@ -86,9 +108,12 @@
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // ctx.fillStyle = "blue";
-
-        // ctx.fillRect(0, 0, canvas.width, canvas.height);
+        for (var i = 0; i < 200; i += gridSize) {
+          for (var j = 0; j < 200; j += gridSize) {
+            ctx.strokeStyle = "gray";
+            ctx.strokeRect(i, j, gridSize, gridSize);
+          }
+        }
 
         let coordinates = [
           [
@@ -375,27 +400,29 @@
 
         coordinates = allPaths;
 
-        const gridSize = 10; // Size of each grid cell
-
-        const radius = 2; // Radius of the circles
-
         const randomHexColor =
           "#" +
           Math.floor(Math.random() * 16777215)
             .toString(16)
             .padStart(6, "0");
-        function drawCircle(x, y, l) {
+
+        function drawCircle(x, y, letter) {
           ctx.beginPath();
           ctx.lineWidth = 1;
           ctx.strokeStyle = "gold"; //"red"; // Circle color
           ctx.strokeRect(x, y - gridSize, gridSize, gridSize);
-          const text = l;
           ctx.font = "14px Courier"; // Set the font size and style
-          ctx.fill();
+          // ctx.fillStyle =
+          //   "#" +
+          //   Math.floor(Math.random() * 16777215)
+          //     .toString(16)
+          //     .padStart(6, "0");
           ctx.fillStyle = randomHexColor;
-          ctx.fillText(text, x, y); // Draw the text at (x, y)
-          ctx.fillStyle = "blue"; // Circle color
-          ctx.fillRect(x, y, 1, 1);
+          ctx.fillRect(x, y - gridSize, gridSize, gridSize);
+          // ctx.fill();
+          ctx.fillStyle = "white"; //randomHexColor;
+          ctx.fillText(letter, x, y); // Draw the text at (x, y)
+
           ctx.closePath();
         }
 
@@ -405,10 +432,11 @@
 
         for (const path of coordinates) {
           if (iiii === iii) {
+            console.log(JSON.stringify(path));
             let ci = 0;
             for (const [row, col] of path) {
-              const x = col * gridSize;
-              const y = row * gridSize;
+              let x = col * gridSize;
+              let y = row * gridSize;
               let l = word[ci];
               ci++;
               drawCircle(x, y, l);
@@ -419,7 +447,7 @@
       }
       setInterval(() => {
         displayWordSnake();
-      }, 100);
+      }, 500);
       displayWordSnake();
     </script>
   </body>
