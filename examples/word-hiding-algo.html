@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- <meta http-equiv="refresh" content="15" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Word hiding paths</title>
   </head>
@@ -13,23 +12,21 @@
       width="200"
       height="200"
     ></canvas>
-
+    <div>
+      <h2>Word hiding example</h2>
+    </div>
     <div>
       With the help of Chat GPT, the following was derived quite easily. This
       html page uses a path finding algorithm and canvas to generate and display
       one of many possible random word hiding paths.
     </div>
-
     <div>
       Based on word length, the number of paths possible grow exponentially?
     </div>
-
     <script>
       const grid_size = 20;
       const gridSize = 10;
-
-      const word = "SHELDON";
-
+      const word = "LOSTWORDS";
       let directions = [
         [-1, 0], // Up
         [1, 0], // Down
@@ -53,39 +50,30 @@
       //   [1, 1], // Down and Right
       // ];
 
-      let ind = Math.floor(Math.random() * 8);
-
       // NOTE: Enable below for static direction
+      // let ind = Math.floor(Math.random() * 8);
       // directions = [[directions[ind][0], directions[ind][1]]];
 
       const allPaths = findAllSnakePaths(word);
 
-      console.log(allPaths.length);
-
       function findAllSnakePaths(word) {
-        const center = Math.floor(grid_size / 2);
-
         let validPaths = [];
-
+        const center = Math.floor(grid_size / 2);
         function isInsideGrid(x, y) {
           return x >= 0 && x < grid_size && y >= 0 && y < grid_size;
         }
-
         function findPathsRecursive(x, y, path) {
           if (path.length === word.length) {
             validPaths.push([...path]);
             return;
           }
-
           for (const [dx, dy] of directions) {
             const newX = x + dx;
             const newY = y + dy;
-
             if (
               isInsideGrid(newX, newY) &&
               !path.some((coords) => coords[0] === newX && coords[1] === newY)
-              // Note: This is where it checks for 'already visited'
-              // Note: // consider a check that allows this path if the current letter equals the possible letter at this coordinate
+              // Note: This is where it checks for 'already visited', consider a check that allows this path if the current letter equals the possible letter at this coordinate
             ) {
               path.push([newX, newY]);
               findPathsRecursive(newX, newY, path);
@@ -93,21 +81,20 @@
             }
           }
         }
-
         findPathsRecursive(center, center, [[center, center]]);
-
         return validPaths;
       }
 
       async function displayWordSnake() {
         const canvas = document.getElementById("gridCanvas");
-
         const ctx = canvas.getContext("2d");
-
         ctx.fillStyle = "blue";
-
+        const randomHexColor =
+          "#" +
+          Math.floor(Math.random() * 16777215)
+            .toString(16)
+            .padStart(6, "0");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
         for (var i = 0; i < 200; i += gridSize) {
           for (var j = 0; j < 200; j += gridSize) {
             ctx.strokeStyle = "gray";
@@ -115,6 +102,7 @@
           }
         }
 
+        // Example coordinates, all possible paths for a 3 letter word
         let coordinates = [
           [
             [3, 3],
@@ -398,51 +386,39 @@
           ],
         ];
 
+        // Re-assigning coordinates from all paths of possibilities
         coordinates = allPaths;
-
-        const randomHexColor =
-          "#" +
-          Math.floor(Math.random() * 16777215)
-            .toString(16)
-            .padStart(6, "0");
 
         function drawCircle(x, y, letter) {
           ctx.beginPath();
           ctx.lineWidth = 1;
-          ctx.strokeStyle = "gold"; //"red"; // Circle color
+          ctx.strokeStyle = "gold";
           ctx.strokeRect(x, y - gridSize, gridSize, gridSize);
-          ctx.font = "14px Courier"; // Set the font size and style
-          // ctx.fillStyle =
-          //   "#" +
-          //   Math.floor(Math.random() * 16777215)
-          //     .toString(16)
-          //     .padStart(6, "0");
+          ctx.font = "14px Courier";
           ctx.fillStyle = randomHexColor;
           ctx.fillRect(x, y - gridSize, gridSize, gridSize);
-          // ctx.fill();
-          ctx.fillStyle = "white"; //randomHexColor;
-          ctx.fillText(letter, x, y); // Draw the text at (x, y)
-
+          ctx.fillStyle = "white";
+          ctx.fillText(letter, x, y);
           ctx.closePath();
         }
 
-        let iiii = 0;
+        let currentPathIndex = 0;
 
-        let iii = Math.floor(Math.random() * coordinates.length);
+        let randomSelectedPath = Math.floor(Math.random() * coordinates.length);
 
         for (const path of coordinates) {
-          if (iiii === iii) {
+          if (currentPathIndex === randomSelectedPath) {
             console.log(JSON.stringify(path));
             let ci = 0;
             for (const [row, col] of path) {
               let x = col * gridSize;
               let y = row * gridSize;
-              let l = word[ci];
+              let letter = word[ci];
               ci++;
-              drawCircle(x, y, l);
+              drawCircle(x, y, letter);
             }
           }
-          iiii++;
+          currentPathIndex++;
         }
       }
       setTimeout(() => {
@@ -452,8 +428,7 @@
       }, 3000);
       setTimeout(() => {
         displayWordSnake();
-        alert("Generating...");
-      }, 100);
+      }, 500);
     </script>
   </body>
 </html>
