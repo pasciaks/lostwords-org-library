@@ -127,7 +127,7 @@ To test this code, execute the following in your bash shell or terminal window.
 $npm run test
 ```
 
-```
+```js
 
 The p_data value holds the letters.
 
@@ -169,19 +169,14 @@ Puzzles: [
   }
 ]
 
-Puzzles Created: 1
 
 ```
-
-# Word hiding algorithm:
-
-[Word Hiding Example](https://pasciak.com/word-hiding-algo.html)
-
-## With the help of Chat GPT, the HTML page linked above uses a path finding algorithm and an HTML canvas to generate and display one of many possible word hiding paths.
 
 # Additional links and examples for reference:
 
 This website demonstrates use of the library. [Demo Website](https://sheldon.pasciak.com/).
+
+This website demonstrates a revised word hiding algorithm. [Word Hiding Example](https://pasciak.com/word-hiding-algo.html).
 
 This website implements a full featured game using the library. [Lostwords.org](http://lostwords.org).
 
