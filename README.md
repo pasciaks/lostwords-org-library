@@ -173,23 +173,14 @@ Puzzles Created: 1
 
 ```
 
+# Word hiding algorithm: [Word Hiding Example](https://pasciak.com/word-hiding-algo.html)
+
+## With the help of Chat GPT, the HTML page linked above uses a path finding algorithm and an HTML canvas to generate and display one of many possible word hiding paths.
+
+# Additional links and examples for reference:
+
 This website demonstrates use of the library. [Demo Website](https://sheldon.pasciak.com/).
 
 This website implements a full featured game using the library. [Lostwords.org](http://lostwords.org).
 
 Contribute and support this effort by donating to my cause. [Contribute/Support](https://www.buymeacoffee.com/shelpasc).
-
----
-
-# Word hiding 'snake' algorithm:
-
-## With the help of Chat GPT, the following was derived quite easily. This HTML page uses a path finding algorithm and an HTML canvas to generate and display one of many possible random word hiding paths.
-
-## The plan is to incorporate this new AI Assisted algorithm into the createManyPuzzles function of this library in the near future. (Oct, 2023)
-
-Example [Word Hiding Algo Example](https://pasciak.com/word-hiding-algo.html).
-
-### Notes for optimization considerations...
-
-- [ ] Store all possible paths and use from disk rather than generate each time?
-- [ ] Prior to finding paths, mark any gird locations containing letters that aren't in the word path being created as already visited?

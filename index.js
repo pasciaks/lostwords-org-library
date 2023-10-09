@@ -4,12 +4,12 @@ let global_p_bends = 0;
 let global_puzzleshapeoverride = "";
 let global_diagonals = "yes";
 let global_wordlistoption = "A";
-let global_title_name = "";
+let global_title_name = "Puzzle Title";
 let global_clueoption = "U";
 let global_blanks = "";
-let global_p_words = "LOST,WORDS,SHELDON,NODE,JAVASCRIPT";
-let global_post_msg = "Puzzle Solved";
-let global_pre_msg = "Good Luck";
+let global_p_words = "LOST,WORDS";
+let global_post_msg = "Post Message - Puzzle Solved";
+let global_pre_msg = "Pre Message - Good Luck";
 
 // -- Internal Use
 let global_hidden_words = '';

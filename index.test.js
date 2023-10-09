@@ -9,4 +9,3 @@ try {
 }
 
 console.log("Puzzles:", result);
-console.log("Puzzles Created:", result.length);

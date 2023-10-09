@@ -15,18 +15,23 @@
     <div>
       <h2>Word hiding example</h2>
     </div>
+    <div id="fadeOut"><p>Standby...</p></div>
     <div>
       With the help of Chat GPT, the following was derived quite easily. This
       html page uses a path finding algorithm and canvas to generate and display
       one of many possible random word hiding paths.
     </div>
-    <div>
-      Based on word length, the number of paths possible grow exponentially?
-    </div>
     <script>
-      const grid_size = 20;
-      const gridSize = 10;
-      const word = "LOSTWORDS";
+      // @todo - Extract this code into reusuable exportable function like createManyPuzzles.
+      let allPaths = [];
+      let grid_size = 20;
+      let gridSize = 10;
+
+      // Note - The side of the word will exponentially increase the creation time. More than 9 letters results in over 3 million paths.
+      let word = "CAT"; // 56 paths
+      word = "SHELDON"; // 89928 paths
+      // word = "LOSTWORDS"; // 3349864 paths
+
       let directions = [
         [-1, 0], // Up
         [1, 0], // Down
@@ -37,6 +42,20 @@
         [1, -1], // Down and Left
         [-1, 1], // Up and Right
       ];
+
+      // directions = [
+      //   [-1, 0], // Up
+      //   [1, 0], // Down
+      //   [0, -1], // Left
+      //   [0, 1], // Right
+      // ];
+
+      // directions = [
+      //   [1, 1], // Down and Right
+      //   [-1, -1], // Up and Left
+      //   [1, -1], // Down and Left
+      //   [-1, 1], // Up and Right
+      // ];
 
       // Note: one direction
       // directions = [
@@ -53,8 +72,6 @@
       // NOTE: Enable below for static direction
       // let ind = Math.floor(Math.random() * 8);
       // directions = [[directions[ind][0], directions[ind][1]]];
-
-      const allPaths = findAllSnakePaths(word);
 
       function findAllSnakePaths(word) {
         let validPaths = [];
@@ -427,6 +444,9 @@
         }, 500);
       }, 3000);
       setTimeout(() => {
+        allPaths = findAllSnakePaths(word);
+        console.log(allPaths.length);
+        document.getElementById("fadeOut").remove();
         displayWordSnake();
       }, 500);
     </script>
