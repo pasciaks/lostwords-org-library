@@ -173,7 +173,9 @@ Puzzles Created: 1
 
 ```
 
-# Word hiding algorithm: [Word Hiding Example](https://pasciak.com/word-hiding-algo.html)
+# Word hiding algorithm:
+
+[Word Hiding Example](https://pasciak.com/word-hiding-algo.html)
 
 ## With the help of Chat GPT, the HTML page linked above uses a path finding algorithm and an HTML canvas to generate and display one of many possible word hiding paths.
 
