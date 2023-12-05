@@ -8,7 +8,9 @@
 
 Note: This code is from many years ago and just being added to npm and the related Github repository as a way to establish a growing, improved code base.
 
-Note: This library is configured for use as a backend Node.js function to be used server side. Thanks to today's lessons, I will be creating a frontend library function soon. Please check back.
+## This is a backend NPM Package, using it requires running code using Node.Js (example/instructions at the end of this document)
+
+Note: This library is configured for use as a backend Node.js function to be used server side. I will likely be creating a frontend library/module function in the future.
 
 ---
 
@@ -120,15 +122,6 @@ let result = lwl.createManyPuzzles(1);
 console.log(result);
 ```
 
-# Test
-
-To test this code, execute the following in your bash shell or terminal window.
-
-```bash
-# test
-$npm run test
-```
-
 ```js
 
 The p_data value holds the letters.
@@ -173,6 +166,48 @@ Puzzles: [
 
 
 ```
+
+# QUICK-START - EXAMPLE USAGE --------------------------------
+
+# NOTE: To use this code, generally, follow these instructions.
+
+- Create a folder/directory on your computer.
+
+- Open that directory in the bash terminal/command line.
+
+- Inside the terminal/command line, execute the following:
+
+```bash
+
+npm install @pasciaks/lostwords-org-library
+
+```
+
+- Create a file in the same directory ( example.js )
+
+- Add the following code to the example.js file you created.
+
+```js
+const { createManyPuzzles } = require("@pasciaks/lostwords-org-library");
+
+let result = createManyPuzzles(1);
+
+console.log("Puzzles:", result);
+
+console.log("Puzzles Created:", result.length);
+```
+
+- Save the .js file and run this example by executing the following in the same terminal.
+
+```bash
+
+
+node example.js
+
+
+```
+
+---
 
 # Additional links and examples for reference:
 
