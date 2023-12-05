@@ -8,6 +8,8 @@
 
 Note: This code is from many years ago and just being added to npm and the related Github repository as a way to establish a growing, improved code base.
 
+Note: This library is configured for use as a backend Node.js function to be used server side. Thanks to today's lessons, I will be creating a frontend library function soon. Please check back.
+
 ---
 
 ```bash
