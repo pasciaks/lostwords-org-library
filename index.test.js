@@ -1,3 +1,9 @@
+/**
+ * 
+ * Although not using a testing library like Jest, this file is used to test the library.
+ * 
+ */
+
 const puzzleMakerLibrary = require("./index");
 
 let result;
