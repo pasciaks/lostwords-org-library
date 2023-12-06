@@ -12,6 +12,8 @@ Note: This code is from many years ago and just being added to npm and the relat
 
 Note: This library is configured for use as a backend Node.js function to be used server side. I will likely be creating a frontend library/module function in the future.
 
+Note: Currently implemented cleanup and module javascript for use as a frontend function - More to do, check back soon.
+
 ---
 
 ```bash
