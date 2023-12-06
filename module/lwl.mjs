@@ -5,11 +5,11 @@
  * @param {*} grid_size 
  * @returns 
  */
-function findAllSnakePaths(word, limit = Infinity, grid_size) {
+function findAllSnakePaths(word, limit = Infinity, grid_size, directions) {
 
   grid_size = grid_size || word.length;
 
-  let directions = [
+  directions = directions || [
     [-1, 0], // Up
     [1, 0], // Down
     [0, -1], // Left
@@ -19,6 +19,8 @@ function findAllSnakePaths(word, limit = Infinity, grid_size) {
     [1, -1], // Down and Left
     [-1, 1], // Up and Right
   ];
+
+  // @todo - Implement bends options
 
   let validPaths = [];
 
