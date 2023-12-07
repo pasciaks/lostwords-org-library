@@ -169,7 +169,13 @@ Puzzles: [
 
 ```
 
-# -------------------------------- -------------------------------- QUICK-START - EXAMPLE USAGE -------------------------------- --------------------------------
+# QUICK-START - EXAMPLE
+
+- In the source code of this package, the folder named [module] has an implemented example of puzzle generation for frontend HTML/JavaScript use.
+
+- In the source code of this package, the folder named [examples] has an additional HTML, JavaScript Implementation of the word paths generator.
+
+# QUICK-START - EXAMPLE USAGE
 
 # NOTE: To use this code, generally, follow these instructions.
 

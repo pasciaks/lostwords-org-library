@@ -2,9 +2,16 @@
 
 import * as lwl from './lwl.mjs';
 
-import {createManyPuzzles, setGlobalOptionValue} from "./lwl-generator.mjs";
+let pathsFound = document.getElementById('paths-found');
 
-function createPaths() {
+import { createManyPuzzles, setGlobalOptionValue } from "./lwl-generator.mjs";
+
+async function createP(e) {
+    e?.preventDefault();
+    createPaths();
+}
+
+async function createPaths() {
     let theWord = document.getElementById('the-word').value.trim().toUpperCase();
     let result = lwl.findAllSnakePaths(theWord, 1, null, null, [[1, 1]]);
     result.forEach((path) => {
@@ -18,11 +25,22 @@ function createPaths() {
     });
 }
 
-function generatePuzzle() {
+async function generateP(e) {
+    e?.preventDefault();
+    generatePuzzle();
+}
 
-    let puzzleSize = Number(prompt('Enter puzzle size', "10"));
+async function generatePuzzle() {
+
+    let puzzleSize = Math.floor(Number(prompt('Enter puzzle size: Min 2, Max 333', "8")));
+
+    if (isNaN(puzzleSize) || puzzleSize < 2 || puzzleSize > 333) {
+        alert("Invalid puzzle size");
+        return;
+    }
 
     setGlobalOptionValue('global_squarePuzzleSize', puzzleSize);
+
     setGlobalOptionValue('global_p_bends', 99);
 
     let result = createManyPuzzles(1);
@@ -49,21 +67,31 @@ function generatePuzzle() {
 
     }
 
-    console.log(result);
-    console.log(puzzle.p_locations);
-    console.log("Words successfully hidden: ", JSON.stringify(puzzle.p_words));
+    if (!result) {
+        console.log("No puzzle generated");
+        document.getElementById('puzzle-ascii').innerHTML = "No puzzle generated, perhaps your words are too long or your size is too small?";
+        return;
+    }
+
+    let arrayOfWordsHidden = puzzle.p_words.map((word) => {
+        return word;
+    });
+
+    arrayOfWordsHidden.forEach((word) => {
+        console.log(word);
+    });
+
     document.getElementById('puzzle-ascii').innerHTML = puzzleLine;
 
 
 }
 
 let createPathsButton = document.getElementById('create-paths-button');
-createPathsButton.addEventListener('click', createPaths);
+createPathsButton.addEventListener('click', createP);
 
 let generateButton = document.getElementById('generate-button');
-generateButton.addEventListener('click', generatePuzzle);
+generateButton.addEventListener('click', generateP);
 
-let pathsFound = document.getElementById('paths-found');
 
 
 
