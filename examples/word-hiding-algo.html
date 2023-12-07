@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Word hiding paths</title>
+    <title>Word hiding paths canvas example.</title>
   </head>
   <body style="text-align: center; margin: 0; padding: 0">
     <canvas
@@ -16,21 +16,17 @@
       <h2>Word hiding example</h2>
     </div>
     <div id="fadeOut"><p>Standby...</p></div>
-    <div>
-      With the help of Chat GPT, the following was derived quite easily. This
-      html page uses a path finding algorithm and canvas to generate and display
-      one of many possible random word hiding paths.
-    </div>
+
     <script>
-      // @todo - Extract this code into reusuable exportable function like createManyPuzzles.
       let allPaths = [];
       let grid_size = 20;
       let gridSize = 10;
 
       // Note - The side of the word will exponentially increase the creation time. More than 9 letters results in over 3 million paths.
+
       let word = "CAT"; // 56 paths
       word = "SHELDON"; // 89928 paths
-      // word = "LOSTWORDS"; // 3349864 paths
+      word = "LOSTWORDS"; // 3349864 paths
 
       let directions = [
         [-1, 0], // Up
@@ -119,292 +115,7 @@
           }
         }
 
-        // Example coordinates, all possible paths for a 3 letter word
-        let coordinates = [
-          [
-            [3, 3],
-            [2, 3],
-            [1, 3],
-          ],
-          [
-            [3, 3],
-            [2, 3],
-            [2, 2],
-          ],
-          [
-            [3, 3],
-            [2, 3],
-            [2, 4],
-          ],
-          [
-            [3, 3],
-            [2, 3],
-            [3, 4],
-          ],
-          [
-            [3, 3],
-            [2, 3],
-            [1, 2],
-          ],
-          [
-            [3, 3],
-            [2, 3],
-            [3, 2],
-          ],
-          [
-            [3, 3],
-            [2, 3],
-            [1, 4],
-          ],
-          [
-            [3, 3],
-            [4, 3],
-            [5, 3],
-          ],
-          [
-            [3, 3],
-            [4, 3],
-            [4, 2],
-          ],
-          [
-            [3, 3],
-            [4, 3],
-            [4, 4],
-          ],
-          [
-            [3, 3],
-            [4, 3],
-            [5, 4],
-          ],
-          [
-            [3, 3],
-            [4, 3],
-            [3, 2],
-          ],
-          [
-            [3, 3],
-            [4, 3],
-            [5, 2],
-          ],
-          [
-            [3, 3],
-            [4, 3],
-            [3, 4],
-          ],
-          [
-            [3, 3],
-            [3, 2],
-            [2, 2],
-          ],
-          [
-            [3, 3],
-            [3, 2],
-            [4, 2],
-          ],
-          [
-            [3, 3],
-            [3, 2],
-            [3, 1],
-          ],
-          [
-            [3, 3],
-            [3, 2],
-            [4, 3],
-          ],
-          [
-            [3, 3],
-            [3, 2],
-            [2, 1],
-          ],
-          [
-            [3, 3],
-            [3, 2],
-            [4, 1],
-          ],
-          [
-            [3, 3],
-            [3, 2],
-            [2, 3],
-          ],
-          [
-            [3, 3],
-            [3, 4],
-            [2, 4],
-          ],
-          [
-            [3, 3],
-            [3, 4],
-            [4, 4],
-          ],
-          [
-            [3, 3],
-            [3, 4],
-            [3, 5],
-          ],
-          [
-            [3, 3],
-            [3, 4],
-            [4, 5],
-          ],
-          [
-            [3, 3],
-            [3, 4],
-            [2, 3],
-          ],
-          [
-            [3, 3],
-            [3, 4],
-            [4, 3],
-          ],
-          [
-            [3, 3],
-            [3, 4],
-            [2, 5],
-          ],
-          [
-            [3, 3],
-            [4, 4],
-            [3, 4],
-          ],
-          [
-            [3, 3],
-            [4, 4],
-            [5, 4],
-          ],
-          [
-            [3, 3],
-            [4, 4],
-            [4, 3],
-          ],
-          [
-            [3, 3],
-            [4, 4],
-            [4, 5],
-          ],
-          [
-            [3, 3],
-            [4, 4],
-            [5, 5],
-          ],
-          [
-            [3, 3],
-            [4, 4],
-            [5, 3],
-          ],
-          [
-            [3, 3],
-            [4, 4],
-            [3, 5],
-          ],
-          [
-            [3, 3],
-            [2, 2],
-            [1, 2],
-          ],
-          [
-            [3, 3],
-            [2, 2],
-            [3, 2],
-          ],
-          [
-            [3, 3],
-            [2, 2],
-            [2, 1],
-          ],
-          [
-            [3, 3],
-            [2, 2],
-            [2, 3],
-          ],
-          [
-            [3, 3],
-            [2, 2],
-            [1, 1],
-          ],
-          [
-            [3, 3],
-            [2, 2],
-            [3, 1],
-          ],
-          [
-            [3, 3],
-            [2, 2],
-            [1, 3],
-          ],
-          [
-            [3, 3],
-            [4, 2],
-            [3, 2],
-          ],
-          [
-            [3, 3],
-            [4, 2],
-            [5, 2],
-          ],
-          [
-            [3, 3],
-            [4, 2],
-            [4, 1],
-          ],
-          [
-            [3, 3],
-            [4, 2],
-            [4, 3],
-          ],
-          [
-            [3, 3],
-            [4, 2],
-            [5, 3],
-          ],
-          [
-            [3, 3],
-            [4, 2],
-            [3, 1],
-          ],
-          [
-            [3, 3],
-            [4, 2],
-            [5, 1],
-          ],
-          [
-            [3, 3],
-            [2, 4],
-            [1, 4],
-          ],
-          [
-            [3, 3],
-            [2, 4],
-            [3, 4],
-          ],
-          [
-            [3, 3],
-            [2, 4],
-            [2, 3],
-          ],
-          [
-            [3, 3],
-            [2, 4],
-            [2, 5],
-          ],
-          [
-            [3, 3],
-            [2, 4],
-            [3, 5],
-          ],
-          [
-            [3, 3],
-            [2, 4],
-            [1, 3],
-          ],
-          [
-            [3, 3],
-            [2, 4],
-            [1, 5],
-          ],
-        ];
-
-        // Re-assigning coordinates from all paths of possibilities
-        coordinates = allPaths;
+        let coordinates = allPaths;
 
         function drawCircle(x, y, letter) {
           ctx.beginPath();

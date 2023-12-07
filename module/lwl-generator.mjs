@@ -481,7 +481,7 @@ const setPointsFromPath = (wordToUse) => {
         sx = global_locationsArray[index].x;
         sy = global_locationsArray[index].y;
         letter = wordToUse.substr(index, 1);
-        setLetter(sx, sy, letter);
+        setLetter(sx, sy, letter.toLowerCase());
     }
 };
 
@@ -537,7 +537,7 @@ const createPath = (maxBends, wordToUse) => {
         (!isDiagonal && global_must_be_diagonal) ||
         (dx === 0 && dy === 0) ||
         (global_noDiagonals === true && dx !== 0 && dy !== 0)
-        );
+    );
 
     let index = 0;
 
@@ -561,7 +561,7 @@ const createPath = (maxBends, wordToUse) => {
                 } while (
                     (dx === 0 && dy === 0) ||
                     (global_noDiagonals === true && dx !== 0 && dy !== 0)
-                    );
+                );
 
                 bendsCount += 1;
             }
@@ -651,8 +651,8 @@ const fillBlanks = (blankCharacters) => {
             if (getLetter(c, r) === "-") {
                 letter =
                     global_letterChoices[
-                        Math.floor(Math.random() * global_letterChoices.length)
-                        ];
+                    Math.floor(Math.random() * global_letterChoices.length)
+                    ];
                 setLetter(c, r, letter.toLowerCase());
             }
         }
