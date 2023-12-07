@@ -27,7 +27,7 @@ let global_currentPath = new Array();
 let global_locationsArray = new Array();
 let global_foundLocations = new Array();
 
-const setGlobalOptionValue = (variable, val) => {
+export const setGlobalOptionValue = (variable, val) => {
     switch (variable) {
         case "global_squarePuzzleSize":
             global_squarePuzzleSize = val;
@@ -140,7 +140,7 @@ function compareArrays(array1, array2) {
 const reverseString = (string_value) => {
     if (!string_value) return null;
     let new_string_value = "";
-    for (i = string_value.length - 1; i >= 0; i--) {
+    for (let i = string_value.length - 1; i >= 0; i--) {
         new_string_value += string_value.charAt(i);
     }
     return new_string_value;
@@ -223,7 +223,7 @@ const shrinkPuzzle = (howManyShrunk, xx, yy, rr, bb, cc) => {
  * @param {*} howManyToCreate
  * @returns
  */
-const createManyPuzzles = (howManyToCreate = 1) => {
+export const createManyPuzzles = (howManyToCreate = 1) => {
     let resultsArray = [];
 
     for (let i = 0; i < howManyToCreate; i++) {
@@ -823,7 +823,7 @@ const createSqlFromFilledform = () => {
         arrayDifferences(ArrayOfWords, global_hidden_words);
     }
 
-    createdPuzzleObject = new Object();
+    let createdPuzzleObject = new Object();
     createdPuzzleObject.creator_id = 1;
     createdPuzzleObject.id = Date.now();
     createdPuzzleObject.creation_datetime = Date.now();
