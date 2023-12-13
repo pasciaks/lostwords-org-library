@@ -22,10 +22,10 @@ let global_p_locations = "";
 let global_wordLetters = "";
 let global_shrinkamt = 0;
 let global_frect = "9,9,9,9, ";
-let global_point = new Object();
-let global_currentPath = new Array();
-let global_locationsArray = new Array();
-let global_foundLocations = new Array();
+let global_point = {};
+let global_currentPath = [];
+let global_locationsArray = [];
+let global_foundLocations = [];
 
 export const setGlobalOptionValue = (variable, val) => {
     switch (variable) {
@@ -75,7 +75,8 @@ export const setGlobalOptionValue = (variable, val) => {
 function arrayDifferences(array1, array2) {
     // Check if both inputs are arrays
     if (!Array.isArray(array1) || !Array.isArray(array2)) {
-        return "Both inputs must be arrays.";
+        console.log("Both inputs must be arrays.");
+        return [array1, array2];
     }
 
     // Create arrays to hold differences
@@ -208,7 +209,7 @@ const shrinkPuzzle = (howManyShrunk, xx, yy, rr, bb, cc) => {
 
     for (let i = 1; i <= global_squarePuzzleSize; i++) {
         for (let r = 1; r <= global_squarePuzzleSize; r++) {
-            if (getLetter(i, r) == " ") {
+            if (getLetter(i, r) === " ") {
                 setLetter(i, r, "-"); // "-"
             } else {
                 setLetter(i, r, " "); // " "
@@ -230,8 +231,8 @@ export const createManyPuzzles = (howManyToCreate = 1) => {
         makeLetterSet();
         let r = createPuzzle();
         let lineText = '';
-        for (var jj = 0; jj < global_squarePuzzleSize; jj++) {
-            for (var ii = 0; ii < global_squarePuzzleSize; ii++) {
+        for (let jj = 0; jj < global_squarePuzzleSize; jj++) {
+            for (let ii = 0; ii < global_squarePuzzleSize; ii++) {
                 lineText += getLetter(ii + 1, jj + 1) + " ";
             }
             lineText = '';
@@ -256,7 +257,7 @@ export const createManyPuzzles = (howManyToCreate = 1) => {
  */
 const createPuzzle = () => {
     global_wordLetters = "";
-    global_foundLocations = new Array();
+    global_foundLocations = [];
     createEmptyPuzzle(global_squarePuzzleSize);
 
     let commas = global_frect;
@@ -287,12 +288,7 @@ const createPuzzle = () => {
 
     if (maxBends < 1) {
         pp = global_diagonals;
-
-        if (pp == "no") {
-            global_noDiagonals = true;
-        } else {
-            global_noDiagonals = false;
-        }
+        global_noDiagonals = pp === "no";
     }
 
     let howManyHidden = 0;
@@ -300,15 +296,15 @@ const createPuzzle = () => {
     let hiddenWords = "";
 
     for (let index = 0; index < wordList.length; index++) {
-        let result = "false";
+        let result = false;
         let attempts = 0;
         do {
             result = hideWordInPuzzle(maxBends, wordList[index]);
             attempts++;
-        } while (result == "false" && attempts < 6666);
+        } while (result === false && attempts < 6666);
 
-        if (result == "false") {
-            if (missingWords == "") {
+        if (result === false) {
+            if (missingWords === "") {
                 missingWords += wordList[index] + "";
             } else {
                 missingWords += "," + wordList[index] + "";
@@ -324,7 +320,7 @@ const createPuzzle = () => {
         }
     }
 
-    global_p_words = hiddenWords;
+    // global_p_words = hiddenWords;
 
     fillBlanks(global_blanks);
 
@@ -350,14 +346,14 @@ const hideWordInPuzzle = (bends, theWord) => {
     do {
         testX = randRange(1, global_squarePuzzleSize);
         testY = randRange(1, global_squarePuzzleSize);
-        global_currentPath = new Array();
+        global_currentPath = [];
         let diags = false;
         global_currentPath = createPath(bends, theWord, diags);
-        if (attempts > 500) return "false";
+        if (attempts > 500) return false;
         attempts++;
-    } while (makePointsFromPath(testX, testY, theWord) === "false");
+    } while (makePointsFromPath(testX, testY, theWord) === false);
 
-    if (setPointsFromPath(theWord) == false) {
+    if (setPointsFromPath(theWord) === false) {
         return false;
     }
 
@@ -374,7 +370,7 @@ const hideWordInPuzzle = (bends, theWord) => {
                 global_locationsArray[jj].y;
         }
     }
-    return "true";
+    return true;
 };
 
 /**
@@ -391,71 +387,71 @@ const makePointsFromPath = (startc, startr, wordToUse) => {
 
     global_locationsArray = new Array();
 
-    if (global_currentPath.length < 1) return "false";
+    if (global_currentPath.length < 1) return false;
 
     for (let index = 0; index < global_currentPath.length; index++) {
         if (sx < 1) {
-            global_locationsArray = new Array();
-            return "false";
+            global_locationsArray = [];
+            return false;
         }
         if (sx > global_squarePuzzleSize) {
-            global_locationsArray = new Array();
-            return "false";
+            global_locationsArray = [];
+            return false;
         }
         if (sy < 1) {
-            global_locationsArray = new Array();
-            return "false";
+            global_locationsArray = [];
+            return false;
         }
         if (sy > global_squarePuzzleSize) {
-            global_locationsArray = new Array();
-            return "false";
+            global_locationsArray = [];
+            return false;
         }
 
         sx += global_currentPath[index].dx;
         sy += global_currentPath[index].dy;
 
-        global_point = new Object();
+        global_point = {};
         global_point.x = sx;
         global_point.y = sy;
 
-        if (findPoint(sx, sy) === "true") {
-            global_locationsArray = new Array();
-            return "false";
+        if (findPoint(sx, sy) === true) {
+            global_locationsArray = [];
+            return false;
         }
 
-        if (getLetter(sx, sy) != "-") {
-            if (global_clueoption == "U") {
-                global_locationsArray = new Array();
-                return "false";
+        if (getLetter(sx, sy) !== "-") {
+            if (global_clueoption === "U") {
+                global_locationsArray = [];
+                return false;
             } else {
-                if (getLetter(sx, sy) != wordToUse.substr(index, 1)) {
-                    global_locationsArray = new Array();
-                    return "false";
+                if (getLetter(sx, sy) !== wordToUse.substring(index, index + 1)) {
+                    global_locationsArray = [];
+                    return false;
                 }
             }
         }
 
         if (sx < 1) {
-            global_locationsArray = new Array();
-            return "false";
+            global_locationsArray = [];
+            return false;
         }
         if (sx > global_squarePuzzleSize) {
-            global_locationsArray = new Array();
-            return "false";
+            global_locationsArray = [];
+            return false;
         }
         if (sy < 1) {
-            global_locationsArray = new Array();
-            return "false";
+            global_locationsArray = [];
+            return false;
         }
         if (sy > global_squarePuzzleSize) {
-            global_locationsArray = new Array();
-            return "false";
+            global_locationsArray = [];
+            return false;
         }
 
         global_locationsArray.push(global_point);
     }
 
-    return "true";
+    return true;
 };
 
 /**
@@ -470,7 +466,7 @@ const setPointsFromPath = (wordToUse) => {
     let letter = "";
 
     for (let ii = 0; ii < global_foundLocations.length; ii++) {
-        if (global_foundLocations[ii] == JSON.stringify(global_locationsArray)) {
+        if (global_foundLocations[ii] === JSON.stringify(global_locationsArray)) {
             return false;
         }
     }
@@ -496,12 +492,12 @@ const findPoint = (valX, valY) => {
     for (let index = 0; index < global_locationsArray.length; index++) {
         if (global_locationsArray[index].x === valX) {
             if (global_locationsArray[index].y === valY) {
-                return "true";
+                return true;
             }
         }
     }
 
-    return "false";
+    return false;
 };
 
 /**
@@ -514,13 +510,13 @@ const findPoint = (valX, valY) => {
 const createPath = (maxBends, wordToUse) => {
     let only90DegreeTurns = false;
 
-    if (maxBends == 999) only90DegreeTurns = true;
+    if (maxBends === 999) only90DegreeTurns = true;
 
     let howMany = wordToUse.length;
 
-    global_currentPath = new Array();
+    global_currentPath = [];
 
-    global_point = new Object();
+    global_point = {};
 
     global_point.dx = 0;
     global_point.dy = 0;
@@ -537,7 +533,7 @@ const createPath = (maxBends, wordToUse) => {
         (!isDiagonal && global_must_be_diagonal) ||
         (dx === 0 && dy === 0) ||
         (global_noDiagonals === true && dx !== 0 && dy !== 0)
-    );
+        );
 
     let index = 0;
 
@@ -553,7 +549,7 @@ const createPath = (maxBends, wordToUse) => {
                     dy = 2 - randRange(1, 3); // -1, 0, 1
 
                     if (only90DegreeTurns) {
-                        if (Math.abs(dx) == Math.abs(dy)) {
+                        if (Math.abs(dx) === Math.abs(dy)) {
                             dx = 0;
                             dy = 0;
                         }
@@ -561,7 +557,7 @@ const createPath = (maxBends, wordToUse) => {
                 } while (
                     (dx === 0 && dy === 0) ||
                     (global_noDiagonals === true && dx !== 0 && dy !== 0)
-                );
+                    );
 
                 bendsCount += 1;
             }
@@ -569,7 +565,7 @@ const createPath = (maxBends, wordToUse) => {
 
         index += 1;
 
-        global_point = new Object();
+        global_point = {};
 
         global_point.dx = dx;
         global_point.dy = dy;
@@ -631,18 +627,18 @@ const createEmptyPuzzle = (global_squarePuzzleSize) => {
 const fillBlanks = (blankCharacters) => {
     let letter = "";
 
-    if (blankCharacters == "[WORDLETTERS]") {
+    if (blankCharacters === "[WORDLETTERS]") {
         blankCharacters = global_wordLetters;
     }
 
-    if (blankCharacters == "") {
+    if (blankCharacters === "") {
         global_letterChoices = "" + makeLetterSet();
     } else {
         global_letterChoices = "" + blankCharacters;
     }
 
     // fail-safe
-    if (!global_letterChoices || global_letterChoices == "") {
+    if (!global_letterChoices || global_letterChoices === "") {
         global_letterChoices = "" + makeLetterSet();
     }
 
@@ -651,8 +647,8 @@ const fillBlanks = (blankCharacters) => {
             if (getLetter(c, r) === "-") {
                 letter =
                     global_letterChoices[
-                    Math.floor(Math.random() * global_letterChoices.length)
-                    ];
+                        Math.floor(Math.random() * global_letterChoices.length)
+                        ];
                 setLetter(c, r, letter.toLowerCase());
             }
         }
@@ -701,18 +697,15 @@ const setCharAt = (str, index, chr) => {
  * @returns
  */
 const createSqlFromFilledform = () => {
-    let ArrayOfWords = new Array();
-    ArrayOfWords = global_p_words.split(",");
+    let ArrayOfWords = global_p_words.split(",");
 
-    let ArrayOfClues = new Array();
+    let ArrayOfClues = [];
 
     for (let ll = 0; ll < ArrayOfWords.length; ll++) {
         ArrayOfClues.push("");
     }
 
-    let ArrayOfLocations = new Array();
-
-    ArrayOfLocations = global_p_locations.split(",");
+    let ArrayOfLocations = global_p_locations.split(",");
 
     let currentWordLength = 0;
 
@@ -739,7 +732,7 @@ const createSqlFromFilledform = () => {
 
     for (let wl = 0; wl < ArrayOfWords.length; wl++) {
         if (ArrayOfWords[wl]) {
-            if (ArrayOfClues[wl] == "") {
+            if (ArrayOfClues[wl] === "") {
 
                 if (global_wordlistoption === 'A') {
                     randomLetterChoice = 'RSNFD';
@@ -776,7 +769,7 @@ const createSqlFromFilledform = () => {
     }
 
     let coordsIndex = 0;
-    let locarr = new Array();
+    let locarr = [];
     let coordsPair = '"';
     let coordLength = ArrayOfWords.length;
 
@@ -789,13 +782,13 @@ const createSqlFromFilledform = () => {
         for (let ii = 0; ii < wordLength; ii++) {
             coordsPair += ArrayOfLocations[coordsIndex];
 
-            if (ArrayOfLocations[coordsIndex] == undefined) {
+            if (ArrayOfLocations[coordsIndex] === undefined) {
                 hasFailed = true;
             }
             coordsIndex++;
             coordsPair += "," + ArrayOfLocations[coordsIndex];
 
-            if (ArrayOfLocations[coordsIndex] == undefined) {
+            if (ArrayOfLocations[coordsIndex] === undefined) {
                 hasFailed = true;
             }
             coordsIndex++;
@@ -815,15 +808,15 @@ const createSqlFromFilledform = () => {
 
     let PuzzleName = global_title_name;
 
-    if (PuzzleName == "") PuzzleName = "Untitled Puzzle";
+    if (PuzzleName === "") PuzzleName = "Untitled Puzzle";
 
     if (compareArrays(ArrayOfWords, global_hidden_words)) {
     } else {
         hasFailed = true;
-        arrayDifferences(ArrayOfWords, global_hidden_words);
+        console.log(arrayDifferences(ArrayOfWords, global_hidden_words));
     }
 
-    let createdPuzzleObject = new Object();
+    let createdPuzzleObject = {};
     createdPuzzleObject.creator_id = 1;
     createdPuzzleObject.id = Date.now();
     createdPuzzleObject.creation_datetime = Date.now();
@@ -841,7 +834,7 @@ const createSqlFromFilledform = () => {
     createdPuzzleObject.p_wordoptions = global_wordlistoption;
     createdPuzzleObject.p_clueoptions = global_clueoption;
 
-    return { created: createdPuzzleObject };
+    return {created: createdPuzzleObject};
 };
 
 /**

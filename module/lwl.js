@@ -4,14 +4,15 @@ import * as lwl from './lwl.mjs';
 
 let pathsFound = document.getElementById('paths-found');
 
-import { createManyPuzzles, setGlobalOptionValue } from "./lwl-generator.mjs";
+import {createManyPuzzles, setGlobalOptionValue} from "./lwl-generator.mjs";
 
-async function createP(e) {
+function createP(e) {
     e?.preventDefault();
-    createPaths();
+    let result = createPaths();
+    console.log(result);
 }
 
-async function createPaths() {
+function createPaths() {
     let theWord = document.getElementById('the-word').value.trim().toUpperCase();
     let result = lwl.findAllSnakePaths(theWord, 1, null, null, [[1, 1]]);
     result.forEach((path) => {
@@ -23,14 +24,32 @@ async function createPaths() {
         });
         pathsFound.innerHTML += `<p>${pathString}</p>`;
     });
+    return result;
 }
 
-async function generateP(e) {
+function generateP(e) {
     e?.preventDefault();
-    generatePuzzle();
+    // generatePuzzle(['one', 'two', 'three']);
+
+    let result = generatePuzzle("LOST,WORDS,SHELDON,PASCIAK");
+    console.log(result);
 }
 
-async function generatePuzzle() {
+function generatePuzzle(optionalWordsArray=[]) {
+
+    if (optionalWordsArray) {
+        if (Array.isArray(optionalWordsArray)) {
+            optionalWordsArray = optionalWordsArray.map((word) => {
+                return word.trim().toUpperCase();
+            });
+        } else if (typeof optionalWordsArray === 'string') {
+            optionalWordsArray = optionalWordsArray.split(',').map((word) => {
+                return word.trim().toUpperCase();
+            });
+        }
+    }
+
+    setGlobalOptionValue('global_p_words', optionalWordsArray.join(","));
 
     let puzzleSize = Math.floor(Number(prompt('Enter puzzle size: Min 2, Max 333', "8")));
 
@@ -63,8 +82,6 @@ async function generatePuzzle() {
             lineCount = 0;
             puzzleLine += '\n';
         }
-
-
     }
 
     if (!result) {
@@ -83,6 +100,7 @@ async function generatePuzzle() {
 
     document.getElementById('puzzle-ascii').innerHTML = puzzleLine;
 
+    return result;
 
 }
 
@@ -91,7 +109,3 @@ createPathsButton.addEventListener('click', createP);
 
 let generateButton = document.getElementById('generate-button');
 generateButton.addEventListener('click', generateP);
-
-
-
-
