@@ -6,18 +6,58 @@ let pathsFound = document.getElementById('paths-found');
 
 import {createManyPuzzles, setGlobalOptionValue} from "./lwl-generator.mjs";
 
-function createP(e) {
-    e?.preventDefault();
-    let result = createPaths();
-    console.log(result);
+function generatePathGrid(path) {
+    // Find the dimensions of the grid
+    let maxX = Math.max(...path.map(point => point[0])) + 1;
+    let maxY = Math.max(...path.map(point => point[1])) + 1;
+
+    let offx = 0;
+    let offy = 0;
+
+    // Create a 2D array to represent the grid
+    let grid = Array.from({length: maxY}, () => Array(maxX).fill('.'));
+
+    // Mark the path points on the grid with '*'
+    path.forEach((point, i) => {
+        let [x, y] = point;
+        x += offx;
+        y += offy;
+        grid[y][x] = `${i}`;//'*';
+    });
+
+    // Convert the grid to a string
+    return grid.map(row => row.join(' ')).join('\n');
 }
 
-function createPaths() {
+function createP(e) {
+    e?.preventDefault();
+
+    pathsFound.innerHTML = '';
+
+    for (let i = 0; i < 9; i++) {
+
+        let result = createPaths(1);
+
+        console.log(result);
+
+        for (let i = 0; i < result.length; i++) {
+            let path = result[i];
+            let pathString = '';
+            path.forEach((coords) => {
+                pathString += `(${coords[0]}, ${coords[1]}) `;
+            });
+            pathsFound.innerHTML += `<p>${pathString}</p>`;
+            pathsFound.innerHTML += `<pre>${generatePathGrid(path)}</pre>`;
+        }
+
+    }
+}
+
+function createPaths(theLimit = 1) {
     let theWord = document.getElementById('the-word').value.trim().toUpperCase();
-    let result = lwl.findAllSnakePaths(theWord, 1, null, null, [[1, 1]]);
+    let result = lwl.findAllSnakePaths(theWord, theLimit, null, null, null);
     result.forEach((path) => {
         console.log(JSON.stringify(path));
-
         let pathString = '';
         path.forEach((coords) => {
             pathString += `(${coords[0]}, ${coords[1]}) `;
@@ -35,7 +75,7 @@ function generateP(e) {
     console.log(result);
 }
 
-function generatePuzzle(optionalWordsArray=[]) {
+function generatePuzzle(optionalWordsArray = []) {
 
     if (optionalWordsArray) {
         if (Array.isArray(optionalWordsArray)) {

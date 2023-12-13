@@ -20,6 +20,8 @@ function findAllSnakePaths(word, limit = Infinity, grid_size, directions) {
         [-1, 1], // Up and Right
     ];
 
+    directions.sort((a, b) => Math.random() - 0.5);
+
     // @todo - Implement bends options
 
     let validPaths = [];
@@ -36,8 +38,6 @@ function findAllSnakePaths(word, limit = Infinity, grid_size, directions) {
             validPaths.push([...path]);
             return;
         }
-
-        directions.sort((a, b) => Math.random() - 0.5);
 
         for (const [dx, dy] of directions) {
             const newX = x + dx;
@@ -57,6 +57,8 @@ function findAllSnakePaths(word, limit = Infinity, grid_size, directions) {
     }
 
     findPathsRecursive(center, center, [[center, center]]);
+
+    validPaths.sort((a, b) => Math.random() - 0.5);
 
     return validPaths;
 
